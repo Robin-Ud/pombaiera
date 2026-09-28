@@ -338,6 +338,9 @@ if (typeof document !== "undefined") {
       b.textContent = line;
       $("#feedback").appendChild(b);
     });
+    // "Próxima rodada" só libera depois do ovo e da subida de faixa
+    const nextBtn = $("#btn-next");
+    nextBtn.disabled = true;
     $("#result").classList.remove("hidden");
 
     (res.success ? sfx.good : sfx.bad)();
@@ -351,6 +354,7 @@ if (typeof document !== "undefined") {
       await openEgg();
     }
     await checkLevel();
+    nextBtn.disabled = false;
     if (AUTO) onNext();
   }
 
@@ -443,6 +447,43 @@ if (typeof document !== "undefined") {
     muteBtn.textContent = muted ? "🔇" : "🔊";
     try { localStorage.setItem(STORE_KEY + "-mute", muted ? "1" : "0"); } catch { /* ok */ }
   };
+
+  // ---------- teclado ----------
+  // A/1/← e B/2/→ escolhem; Enter/Espaço apertam o botão principal da tela; M liga/desliga o som.
+  const visible = (sel) => !$(sel).classList.contains("hidden");
+  const onScreen = (id) => $("#" + id).classList.contains("active");
+
+  function mainButton() {
+    if (visible("#modal-level")) return $("#btn-level-ok");
+    if (visible("#modal-egg")) return visible("#btn-egg-ok") ? $("#btn-egg-ok") : null;
+    if (onScreen("screen-start")) return $("#btn-start");
+    if (onScreen("screen-end")) return $("#btn-again");
+    if (onScreen("screen-game") && visible("#result")) return $("#btn-next");
+    return null;
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.repeat || e.ctrlKey || e.altKey || e.metaKey) return;
+    const key = e.key.toLowerCase();
+
+    if (key === "enter" || key === " ") {
+      e.preventDefault();
+      if (document.activeElement) document.activeElement.blur();
+      const btn = mainButton();
+      if (btn && !btn.disabled) btn.click();
+      return;
+    }
+    if (key === "m") return muteBtn.click();
+
+    const modalOpen = visible("#modal-level") || visible("#modal-egg");
+    if (!onScreen("screen-game") || modalOpen) return;
+    const opt = { a: "a", 1: "a", arrowleft: "a", b: "b", 2: "b", arrowright: "b" }[key];
+    const btn = opt && $(`.option[data-opt="${opt}"]`);
+    if (btn && !btn.disabled) {
+      e.preventDefault();
+      btn.click();
+    }
+  });
 
   // perguntas.js (gerado por gerar_perguntas_js.py) funciona até abrindo o arquivo direto;
   // o fetch fica de reserva caso ele não exista.

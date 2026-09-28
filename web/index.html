@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogo do Pombo</title>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <!-- Tela inicial -->
@@ -16,9 +16,10 @@
       <li><b>Bando pequeno</b> cresce rápido e sofre pouco. <b>Bando grande</b> cresce devagar e sofre mais.</li>
       <li><b>Sequência</b>: boas escolhas seguidas fazem o bando crescer mais.</li>
       <li><b>Ovo surpresa</b>: uma boa escolha pode trazer um presente.</li>
+      <li><b>Teclado</b>: <kbd>A</kbd>/<kbd>B</kbd> (ou <kbd>1</kbd>/<kbd>2</kbd>, <kbd>←</kbd>/<kbd>→</kbd>) para escolher, <kbd>Enter</kbd> para continuar, <kbd>M</kbd> para o som.</li>
     </ul>
     <div id="record" class="record"></div>
-    <button id="btn-start" class="btn-big">Começar</button>
+    <button id="btn-start" class="btn-big">Começar <kbd>Enter</kbd></button>
   </section>
 
   <!-- Jogo -->
@@ -66,7 +67,7 @@
         <p id="result-odds" class="result-odds"></p>
         <p id="result-note" class="result-note"></p>
         <div id="feedback" class="feedback"></div>
-        <button id="btn-next" class="btn-big">Próxima rodada</button>
+        <button id="btn-next" class="btn-big">Próxima rodada <kbd>Enter</kbd></button>
       </div>
     </main>
   </section>
@@ -76,7 +77,7 @@
     <h1 id="end-title"></h1>
     <p id="end-msg" class="tagline"></p>
     <div class="stats" id="stats"></div>
-    <button id="btn-again" class="btn-big">Jogar de novo</button>
+    <button id="btn-again" class="btn-big">Jogar de novo <kbd>Enter</kbd></button>
   </section>
 
   <!-- Ovo surpresa -->
@@ -85,7 +86,7 @@
       <h2>Ovo surpresa!</h2>
       <div id="egg" class="egg">🥚</div>
       <p id="prize-text" class="prize-text">Sua boa escolha trouxe um presente…</p>
-      <button id="btn-egg-ok" class="btn-big hidden">Continuar</button>
+      <button id="btn-egg-ok" class="btn-big hidden">Continuar <kbd>Enter</kbd></button>
     </div>
   </div>
 
@@ -95,11 +96,11 @@
       <div class="level-label">O bando cresceu!</div>
       <h2 id="level-name"></h2>
       <p id="level-msg"></p>
-      <button id="btn-level-ok" class="btn-big">Continuar</button>
+      <button id="btn-level-ok" class="btn-big">Continuar <kbd>Enter</kbd></button>
     </div>
   </div>
 
-  <script src="perguntas.js?v=4"></script>
-  <script src="game.js?v=4"></script>
+  <script src="perguntas.js?v=5"></script>
+  <script src="game.js?v=5"></script>
 </body>
 </html>

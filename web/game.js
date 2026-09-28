@@ -205,38 +205,6 @@ if (typeof document !== "undefined") {
     level: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.22, 0.08, i * 0.1)),
   };
 
-  // ---------- confete (só ao subir de faixa) ----------
-  const canvas = $("#confetti");
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-  function burst(n) {
-    if (FAST) return;
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-    const colors = ["#f2c14e", "#6fcf97", "#7cc6de", "#f4f1e8"];
-    const wasEmpty = !particles.length;
-    for (let i = 0; i < n; i++) {
-      particles.push({
-        x: innerWidth / 2, y: innerHeight / 3,
-        vx: (Math.random() - 0.5) * 12, vy: Math.random() * -12 - 4,
-        s: 4 + Math.random() * 6, c: colors[i % colors.length], life: 90 + Math.random() * 40, r: Math.random() * 6,
-      });
-    }
-    if (wasEmpty) requestAnimationFrame(drawConfetti);
-  }
-  function drawConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles = particles.filter((p) => p.life-- > 0);
-    for (const p of particles) {
-      p.vy += 0.35; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.r += 0.2;
-      ctx.save();
-      ctx.translate(p.x, p.y); ctx.rotate(p.r);
-      ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
-      ctx.restore();
-    }
-    if (particles.length) requestAnimationFrame(drawConfetti);
-  }
-
   // ---------- telas ----------
   function show(id) {
     $$(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
@@ -287,23 +255,14 @@ if (typeof document !== "undefined") {
     $("#buffs").innerHTML = buffs.map((b) => `<span class="buff">${b}</span>`).join("");
   }
 
-  async function animatePop(from, to) {
-    const el = $("#pop-count");
-    const steps = Math.min(Math.abs(to - from), 20);
-    for (let i = 1; i <= steps; i++) {
-      el.textContent = Math.round(from + ((to - from) * i) / steps);
-      el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
-      await wait(Math.max(25, 400 / steps));
-    }
-    el.textContent = to;
+  function setPop(value) {
+    $("#pop-count").textContent = value;
   }
 
   function flashDelta(delta) {
     const el = $("#pop-delta");
     el.textContent = (delta > 0 ? "+" : "") + delta;
     el.className = "pop-delta " + (delta > 0 ? "win" : "lose");
-    void el.offsetWidth;
-    el.classList.add("show");
   }
 
   // ---------- rodada ----------
@@ -325,7 +284,6 @@ if (typeof document !== "undefined") {
     $("#suspense").classList.add("hidden");
     $("#result").classList.add("hidden");
     renderHud();
-    $("#card").style.animation = "none"; void $("#card").offsetWidth; $("#card").style.animation = "";
 
     if (AUTO) {
       const target = AUTO === "best" ? "gain" : "loss";
@@ -345,7 +303,6 @@ if (typeof document !== "undefined") {
   }
 
   async function reveal(letter, option, res) {
-    const before = state.pop;
     state.pop = Math.max(0, state.pop + res.delta);
     state.streak = res.streak;
     state.maxStreak = Math.max(state.maxStreak, state.streak);
@@ -375,10 +332,9 @@ if (typeof document !== "undefined") {
     $("#result-note").classList.toggle("hidden", !showNote);
 
     $("#feedback").innerHTML = "";
-    current.feedback.forEach((line, i) => {
+    current.feedback.forEach((line) => {
       const b = document.createElement("div");
       b.className = "bubble";
-      b.style.animationDelay = FAST ? "0s" : `${0.4 + i * 0.6}s`;
       b.textContent = line;
       $("#feedback").appendChild(b);
     });
@@ -386,7 +342,7 @@ if (typeof document !== "undefined") {
 
     (res.success ? sfx.good : sfx.bad)();
     flashDelta(res.delta);
-    await animatePop(before, state.pop);
+    setPop(state.pop);
     renderHud();
     if (DEBUG) console.log(`  escolha=${letter} melhor=${res.chosenBest} sucesso=${res.success} delta=${res.delta} pop=${state.pop}`);
 
@@ -409,13 +365,11 @@ if (typeof document !== "undefined") {
     const amount = Math.max(2, pyRound(state.pop * 0.15));
     const egg = $("#egg");
     egg.textContent = "🥚";
-    egg.classList.add("wobble");
     $("#prize-text").textContent = "Sua boa escolha trouxe um presente…";
     $("#btn-egg-ok").classList.add("hidden");
     $("#modal-egg").classList.remove("hidden");
 
     await wait(1200);
-    egg.classList.remove("wobble");
     egg.textContent = "🐣";
     $("#prize-text").textContent = prizeText(prize, amount);
     sfx.good();
@@ -430,10 +384,9 @@ if (typeof document !== "undefined") {
     $("#modal-egg").classList.add("hidden");
 
     if (prize.id === "brood") {
-      const before = state.pop;
       state.pop += amount;
       flashDelta(amount);
-      await animatePop(before, state.pop);
+      setPop(state.pop);
     } else {
       state.buffs[prize.id] = true;
     }
@@ -452,7 +405,6 @@ if (typeof document !== "undefined") {
     $("#level-msg").textContent = BAND_FINAL_MESSAGE[band.name];
     $("#modal-level").classList.remove("hidden");
     sfx.level();
-    burst(140);
     await new Promise((resolve) => ($("#btn-level-ok").onclick = resolve));
     $("#modal-level").classList.add("hidden");
   }
@@ -465,7 +417,6 @@ if (typeof document !== "undefined") {
     const newRecord = survived && state.pop > (rec.best || 0);
     if (newRecord) saveRecord({ best: state.pop, bestBand: band.name });
 
-    $("#end-emoji").textContent = survived ? (newRecord ? "🏆" : "🕊️") : "🪶";
     $("#end-title").textContent = survived
       ? (newRecord ? `Novo recorde: ${state.pop} pombos!` : `${state.pop} pombos`)
       : "O bando desapareceu";

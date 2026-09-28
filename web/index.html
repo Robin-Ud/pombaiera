@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo do Pombo</title>
+  <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <!-- Tela inicial -->
+  <section id="screen-start" class="screen active">
+    <div class="logo">🕊️</div>
+    <h1>Jogo do Pombo</h1>
+    <p class="tagline">Guie seu bando pela cidade. Boas decisões ecológicas costumam dar certo, mas a natureza sempre tem a última palavra.</p>
+    <ul class="rules">
+      <li><b>Escolha</b> o que o bando faz em cada situação.</li>
+      <li><b>Bando pequeno</b> cresce rápido e sofre pouco. <b>Bando grande</b> cresce devagar e sofre mais.</li>
+      <li><b>Sequência</b>: boas escolhas seguidas fazem o bando crescer mais.</li>
+      <li><b>Ovo surpresa</b>: uma boa escolha pode trazer um presente.</li>
+    </ul>
+    <div id="record" class="record"></div>
+    <button id="btn-start" class="btn-big">Começar</button>
+  </section>
+
+  <!-- Jogo -->
+  <section id="screen-game" class="screen">
+    <header class="hud">
+      <div class="hud-row">
+        <div class="pop">
+          <span class="pop-icon">🕊️</span>
+          <span id="pop-count" class="pop-count">5</span>
+          <span id="pop-delta" class="pop-delta"></span>
+        </div>
+        <div class="hud-right">
+          <span id="round-label" class="round-label">Rodada 1/23</span>
+          <button id="btn-mute" class="btn-icon" aria-label="Som">🔊</button>
+        </div>
+      </div>
+      <div class="band-row">
+        <span id="band-name" class="band-name">Ninho</span>
+        <div class="bar"><div id="band-bar" class="bar-fill"></div></div>
+        <span id="band-next" class="band-next"></span>
+      </div>
+      <div class="combo-row">
+        <span class="combo-label">Sequência</span>
+        <div class="combo-pips" id="combo-pips"></div>
+        <span id="combo-mult" class="combo-mult"></span>
+        <span id="buffs" class="buffs"></span>
+      </div>
+    </header>
+
+    <main class="card" id="card">
+      <div id="category" class="category"></div>
+      <p id="scenario" class="scenario"></p>
+
+      <div class="options">
+        <button class="option" data-opt="a"><span class="opt-letter">A</span><span class="opt-label"></span></button>
+        <button class="option" data-opt="b"><span class="opt-letter">B</span><span class="opt-label"></span></button>
+      </div>
+
+      <div id="suspense" class="suspense hidden">
+        <span class="hop">🐦</span>
+        <p>pru-pru…</p>
+      </div>
+
+      <div id="result" class="result hidden">
+        <div id="result-banner" class="result-banner"></div>
+        <p id="result-odds" class="result-odds"></p>
+        <p id="result-note" class="result-note"></p>
+        <div id="feedback" class="feedback"></div>
+        <button id="btn-next" class="btn-big">Próxima rodada</button>
+      </div>
+    </main>
+  </section>
+
+  <!-- Fim -->
+  <section id="screen-end" class="screen">
+    <div id="end-emoji" class="logo">🏆</div>
+    <h1 id="end-title"></h1>
+    <p id="end-msg" class="tagline"></p>
+    <div class="stats" id="stats"></div>
+    <button id="btn-again" class="btn-big">Jogar de novo</button>
+  </section>
+
+  <!-- Ovo surpresa -->
+  <div id="modal-egg" class="modal hidden">
+    <div class="modal-box">
+      <h2>Ovo surpresa!</h2>
+      <div id="egg" class="egg">🥚</div>
+      <p id="prize-text" class="prize-text">Sua boa escolha trouxe um presente…</p>
+      <button id="btn-egg-ok" class="btn-big hidden">Continuar</button>
+    </div>
+  </div>
+
+  <!-- Subida de faixa -->
+  <div id="modal-level" class="modal hidden">
+    <div class="modal-box level">
+      <div class="level-label">O bando cresceu!</div>
+      <h2 id="level-name"></h2>
+      <p id="level-msg"></p>
+      <button id="btn-level-ok" class="btn-big">Continuar</button>
+    </div>
+  </div>
+
+  <script src="perguntas.js?v=3"></script>
+  <script src="game.js?v=3"></script>
+</body>
+</html>

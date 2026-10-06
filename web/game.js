@@ -448,6 +448,32 @@ if (typeof document !== "undefined") {
     try { localStorage.setItem(STORE_KEY + "-mute", muted ? "1" : "0"); } catch { /* ok */ }
   };
 
+  // ---------- instalação (PWA) ----------
+  // O service worker guarda o jogo para abrir sem internet; aberto direto do disco (file:) ele não roda.
+  if ("serviceWorker" in navigator && location.protocol !== "file:" && !AUTO) {
+    navigator.serviceWorker.register("sw.js").catch((err) => console.warn("Service worker não registrado:", err));
+  }
+
+  const installBtn = $("#btn-install");
+  const installed = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  let installPrompt = null;
+  addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    installPrompt = e;
+    installBtn.classList.remove("hidden");
+  });
+  addEventListener("appinstalled", () => installBtn.classList.add("hidden"));
+  installBtn.onclick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    installPrompt = null;
+    installBtn.classList.add("hidden");
+  };
+  // iPhone/iPad não têm o aviso de instalação: mostra o caminho manual.
+  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (iOS && !installed) $("#install-hint").classList.remove("hidden");
+
   // ---------- teclado ----------
   // A/1/← e B/2/→ escolhem; Enter/Espaço apertam o botão principal da tela; M liga/desliga o som.
   const visible = (sel) => !$(sel).classList.contains("hidden");

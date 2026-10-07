@@ -170,6 +170,8 @@ if (typeof document !== "undefined") {
   let QUESTIONS = [];
   let state;
   let current = null;
+  // Resposta da rodada atual: só vai para as métricas ao sair do feedback, já com o tempo de leitura.
+  let pendingAnswer = null;
 
   // ---------- armazenamento ----------
   const STORE_KEY = "jogo-do-pombo";
@@ -223,7 +225,10 @@ if (typeof document !== "undefined") {
       pool: QUESTIONS.map((_, i) => i), lastRound: {},
       streak: 0, maxStreak: 0, bestChoices: 0, bandIdx: 0,
       buffs: { shield: false, double: false, wise: false },
+      startedAt: performance.now(), shownAt: 0, decisionMs: 0,
     };
+    Metrics.start({ rounds: state.rounds });
+    resetRating();
     show("screen-game");
     $("#pop-count").textContent = state.pop;
     nextRound();
@@ -284,6 +289,7 @@ if (typeof document !== "undefined") {
     $("#suspense").classList.add("hidden");
     $("#result").classList.add("hidden");
     renderHud();
+    state.shownAt = performance.now();
 
     if (AUTO) {
       const target = AUTO === "best" ? "gain" : "loss";
@@ -293,6 +299,7 @@ if (typeof document !== "undefined") {
 
   async function choose(letter) {
     const option = current["option_" + letter];
+    state.decisionMs = performance.now() - state.shownAt;
     $$(".option").forEach((b) => { b.disabled = true; if (b.dataset.opt === letter) b.classList.add("picked"); });
 
     const res = resolveRound(state, current, option, rng);
@@ -349,16 +356,35 @@ if (typeof document !== "undefined") {
     renderHud();
     if (DEBUG) console.log(`  escolha=${letter} melhor=${res.chosenBest} sucesso=${res.success} delta=${res.delta} pop=${state.pop}`);
 
+    const answer = {
+      round: state.round, category: current.category, scenario: current.scenario.slice(0, 80), choice: letter,
+      chosenBest: res.chosenBest, risky: res.risky, success: res.success, delta: res.delta,
+      pop: state.pop, band: getBand(state.pop).name, streak: state.streak,
+      decisionMs: Math.round(state.decisionMs), t: Math.round(performance.now() - state.startedAt),
+    };
+    pendingAnswer = { id: current.id, data: answer, revealedAt: performance.now() };
+
     if (state.pop > 0 && res.chosenBest && rng() < EGG_CHANCE) {
       await wait(700);
-      await openEgg();
+      answer.egg = await openEgg();
     }
-    await checkLevel();
+    if (await checkLevel()) answer.levelUp = getBand(state.pop).name;
+    answer.pop = state.pop;
+    pendingAnswer.revealedAt = performance.now();
     nextBtn.disabled = false;
     if (AUTO) onNext();
   }
 
+  function commitAnswer(read) {
+    if (!pendingAnswer) return;
+    if (read) pendingAnswer.data.readMs = Math.round(performance.now() - pendingAnswer.revealedAt);
+    Metrics.track("answer", pendingAnswer.id, pendingAnswer.data);
+    pendingAnswer = null;
+    if (state.round % 5 === 0) Metrics.flush();
+  }
+
   function onNext() {
+    commitAnswer(true);
     if (state.pop <= 0) return endGame(false);
     nextRound();
   }
@@ -395,6 +421,7 @@ if (typeof document !== "undefined") {
       state.buffs[prize.id] = true;
     }
     renderHud();
+    return prize.id;
   }
 
   // ---------- subida de faixa ----------
@@ -402,7 +429,7 @@ if (typeof document !== "undefined") {
     const idx = BANDS.indexOf(getBand(state.pop));
     const up = idx > state.bandIdx;
     state.bandIdx = idx;
-    if (!up || AUTO) return;
+    if (!up || AUTO) return up;
 
     const band = BANDS[idx];
     $("#level-name").textContent = band.name;
@@ -411,6 +438,7 @@ if (typeof document !== "undefined") {
     sfx.level();
     await new Promise((resolve) => ($("#btn-level-ok").onclick = resolve));
     $("#modal-level").classList.add("hidden");
+    return true;
   }
 
   // ---------- fim ----------
@@ -431,9 +459,47 @@ if (typeof document !== "undefined") {
       <div class="stat"><b>${state.bestChoices}/${played}</b><span>boas escolhas</span></div>
       <div class="stat"><b>${state.maxStreak}</b><span>maior sequência</span></div>`;
 
+    Metrics.track("end", null, {
+      survived, round: played, pop: state.pop, band: band.name,
+      bestChoices: state.bestChoices, maxStreak: state.maxStreak,
+      durationMs: Math.round(performance.now() - state.startedAt),
+    });
+    Metrics.flush();
+    state.survived = survived;
+
     show("screen-end");
     if (DEBUG) console.log(`FIM survived=${survived} pop=${state.pop} band=${band.name}`);
   }
+
+  // ---------- avaliação ----------
+  // Sem métricas configuradas a avaliação não teria para onde ir, então nem aparece.
+  let stars = 0;
+  $("#stars").innerHTML = [1, 2, 3, 4, 5]
+    .map((n) => `<button class="star" data-stars="${n}" aria-label="${n} de 5">★</button>`).join("");
+  $$(".star").forEach((b) => (b.onclick = () => setStars(Number(b.dataset.stars))));
+
+  function setStars(n) {
+    stars = n;
+    $$(".star").forEach((b) => b.classList.toggle("on", Number(b.dataset.stars) <= n));
+    $("#btn-rate").disabled = false;
+  }
+
+  function resetRating() {
+    stars = 0;
+    $$(".star").forEach((b) => b.classList.remove("on"));
+    $("#rating-comment").value = "";
+    $("#btn-rate").disabled = true;
+    $("#rating").classList.toggle("hidden", !Metrics.enabled);
+    $("#rating-thanks").classList.add("hidden");
+  }
+
+  $("#btn-rate").onclick = () => {
+    if (!stars) return;
+    Metrics.track("rating", null, { stars, comment: $("#rating-comment").value.trim().slice(0, 500), survived: state.survived });
+    Metrics.flush();
+    $("#rating").classList.add("hidden");
+    $("#rating-thanks").classList.remove("hidden");
+  };
 
   // ---------- eventos ----------
   $("#btn-start").onclick = newGame;
@@ -483,13 +549,14 @@ if (typeof document !== "undefined") {
     if (visible("#modal-level")) return $("#btn-level-ok");
     if (visible("#modal-egg")) return visible("#btn-egg-ok") ? $("#btn-egg-ok") : null;
     if (onScreen("screen-start")) return $("#btn-start");
-    if (onScreen("screen-end")) return $("#btn-again");
+    if (onScreen("screen-end")) return visible("#rating") && stars ? $("#btn-rate") : $("#btn-again");
     if (onScreen("screen-game") && visible("#result")) return $("#btn-next");
     return null;
   }
 
   document.addEventListener("keydown", (e) => {
     if (e.repeat || e.ctrlKey || e.altKey || e.metaKey) return;
+    if (e.target.matches?.("textarea, input")) return; // digitando o comentário
     const key = e.key.toLowerCase();
 
     if (key === "enter" || key === " ") {
@@ -500,6 +567,7 @@ if (typeof document !== "undefined") {
       return;
     }
     if (key === "m") return muteBtn.click();
+    if (onScreen("screen-end") && visible("#rating") && /^[1-5]$/.test(key)) return setStars(Number(key));
 
     const modalOpen = visible("#modal-level") || visible("#modal-egg");
     if (!onScreen("screen-game") || modalOpen) return;
@@ -509,6 +577,13 @@ if (typeof document !== "undefined") {
       e.preventDefault();
       btn.click();
     }
+  });
+
+  // Saindo do jogo (troca de app, fecha a aba): manda o que já foi anotado, inclusive a rodada em andamento.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "hidden") return;
+    commitAnswer(false);
+    Metrics.flush();
   });
 
   // perguntas.js (gerado por gerar_perguntas_js.py) funciona até abrindo o arquivo direto;

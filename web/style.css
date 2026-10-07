@@ -118,6 +118,21 @@ h1 { font-size: 2rem; margin-bottom: 8px; }
 .stat b { display: block; font-size: 1.4rem; color: var(--accent); }
 .stat span { font-size: .8rem; color: var(--muted); }
 
+/* avaliação */
+.rating { background: var(--card); border-radius: 8px; padding: 14px; margin-bottom: 16px; display: grid; gap: 10px; }
+.rating-q { font-weight: 600; }
+.stars { display: flex; gap: 4px; }
+.star { font-size: 2rem; line-height: 1; padding: 2px 4px; color: var(--line); }
+.star.on { color: var(--accent); }
+.rating textarea {
+  width: 100%; resize: vertical; padding: 10px; border-radius: 8px;
+  font: inherit; font-size: 16px; color: var(--text);
+  background: var(--field); border: 2px solid var(--line);
+}
+.rating textarea:focus { outline: none; border-color: var(--blue); }
+.rating .btn-secondary { margin-top: 0; }
+.rating-thanks { color: var(--good); text-align: center; margin-bottom: 16px; }
+
 /* avisos (ovo e subida de faixa) */
 .modal { position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, .6); display: grid; place-items: center; padding: 16px; }
 .modal-box { width: 100%; max-width: 380px; background: var(--card); border-radius: 8px; padding: 20px; text-align: center; display: grid; gap: 10px; }

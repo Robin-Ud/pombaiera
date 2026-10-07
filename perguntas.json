@@ -13,6 +13,7 @@
   ],
   "questions": [
     {
+      "id": "q01",
       "category": "Distribuição etária",
       "scenario": "O bando precisa de mais pombos e o Bem-te-vi do bairro anda de olho no seu ninho:",
       "option_a": {
@@ -37,6 +38,7 @@
       "tier": 0
     },
     {
+      "id": "q02",
       "category": "Fecundidade",
       "scenario": "O inverno acabou e os dias estão ficando mais quentes e longos. O que o bando faz?",
       "option_a": {
@@ -57,6 +59,7 @@
       "tier": 1
     },
     {
+      "id": "q03",
       "category": "Fecundidade",
       "scenario": "Chegou a época de pôr ovos e você precisa de um novo abrigo. Voando pela cidade você descobre um abrigo alto e isolado, porém esse lugar já foi habitado antes. É possível ver restos de ninho. O que fazer?",
       "option_a": {
@@ -81,6 +84,7 @@
       "tier": 1
     },
     {
+      "id": "q04",
       "category": "Natalidade",
       "scenario": "A escolha do abrigo é fundamental. Durante as buscas você encontrou um abrigo no alto do telhado de um galpão, bem pertinho das telhas de zinco. Predadores se manterão longe, mas o lugar parece quente. O que fazer?",
       "option_a": {
@@ -105,6 +109,7 @@
       "tier": 2
     },
     {
+      "id": "q05",
       "category": "Mortalidade",
       "scenario": "Você e seu bando avistam um “banquete lendário” no meio da rua: um saco gigante de salgadinhos aberto, bem na faixa de ônibus. A missão parece fácil — correr, beliscar e sair voando — mas os humanos estão passando apressados, os ônibus não param e um funcionário já vem tentando espantar todo mundo. O que fazer?",
       "option_a": {
@@ -129,6 +134,7 @@
       "tier": 3
     },
     {
+      "id": "q06",
       "category": "População",
       "scenario": "Uma grande obra começou a dividir o parque onde seu bando vive. Uma parte do parque continua segura e cheia de pombos, enquanto a outra ficou isolada e com poucos indivíduos. O que fazer?",
       "option_a": {
@@ -149,6 +155,7 @@
       "tier": 4
     },
     {
+      "id": "q07",
       "category": "Capacidade de suporte",
       "scenario": "Foi uma primavera de muitos filhotes e o bando da praça está enorme! Só que o carrinho de pipoca e as migalhas da padaria não alimentam todo mundo. Já tem pombo magrelo brigando por cada pipoquinha e filhote piando de fome. O que fazer?",
       "option_a": {
@@ -173,6 +180,7 @@
       "tier": 5
     },
     {
+      "id": "q08",
       "category": "Capacidade de suporte",
       "scenario": "Onda de calor! A fonte da praça é a única água por perto e virou festa: pombos apertados, água esverdeada e uns colegas com as penas arrepiadas e os olhos lacrimejando. O que fazer?",
       "option_a": {
@@ -197,6 +205,7 @@
       "tier": 5
     },
     {
+      "id": "q09",
       "category": "Regulação populacional - Defasagem temporal",
       "scenario": "Faz meses que a comida do bairro está diminuindo. Na chamada da tarde, o pombo mais velho pede um voluntário para descobrir se o bando está bem. Como você vai fazer isso?",
       "option_a": {
@@ -217,6 +226,7 @@
       "tier": 6
     },
     {
+      "id": "q10",
       "category": "Regulação populacional - Defasagem temporal",
       "scenario": "O bando bombou nos últimos meses e tinha pombo por todo lado! Agora um casal de falcões acabou de fazer ninho na torre da igreja, bem em frente à praça. Só que a comida está diminuindo e o bando já começou a encolher. O que fazer?",
       "option_a": {
@@ -241,6 +251,7 @@
       "tier": 6
     },
     {
+      "id": "q11",
       "category": "Regulação populacional - Defasagem temporal",
       "scenario": "A feirinha voltou para o bairro e tem comida espalhada pela praça toda! Mas o bando continua encolhendo: nasceram poucos filhotes na época da fome e vários pombos velhinhos estão partindo. Um pombo pessimista grita: \"Essa praça está amaldiçoada, vamos embora!\" O que fazer?",
       "option_a": {
@@ -261,6 +272,7 @@
       "tier": 6
     },
     {
+      "id": "q12",
       "category": "Regulação populacional - Defasagem temporal",
       "scenario": "A feira livre que deixava tanta comida no chão da praça acabou de mudar de bairro! Só que o bando ainda está gordinho e feliz, e tem ovos chocando nos ninhos, ou seja, logo vão aparecer bocas famintas. O que fazer?",
       "option_a": {
@@ -281,6 +293,7 @@
       "tier": 6
     },
     {
+      "id": "q13",
       "category": "Regulação populacional - Fatores dependentes da densidade",
       "scenario": "Uma padaria nova abriu no bairro vizinho e metade do bando se mudou para lá. Na praça sobraram poucos pombos, todo mundo junto e se vendo todo dia. Agora tem comida de sobra e ninho vago em cada beiral, mas alguns pombos preocupados dizem: \"Bando pequeno é bando frágil\". O que fazer?",
       "option_a": {
@@ -301,6 +314,7 @@
       "tier": 7
     },
     {
+      "id": "q14",
       "category": "Regulação populacional - Fatores dependentes da densidade",
       "scenario": "Dois banquetes apareceram ao mesmo tempo! No calçadão, uma pilha gigante de pão de padaria, mas está uma muvuca: é pombo empurrando, bicando e brigando por cada pedacinho. Nos fundos da praça, uma pilha bem menor de milho, com só alguns pombos comendo sossegados. Para onde você vai?",
       "option_a": {
@@ -325,6 +339,7 @@
       "tier": 7
     },
     {
+      "id": "q15",
       "category": "Espaço e metapopulações - Fragmentação e qualidade do habitat urbano",
       "scenario": "Chegou a hora de escolher onde fazer o ninho. Você achou um beiral baixinho, pertinho do chão e das migalhas, fácil de alcançar. Também achou uma marquise alta, com um cantinho escondido, que dá mais trabalho para chegar. O que fazer?",
       "option_a": {
@@ -349,6 +364,7 @@
       "tier": 8
     },
     {
+      "id": "q16",
       "category": "Espaço e metapopulações - Fragmentação e qualidade do habitat urbano",
       "scenario": "Você ouviu falar de dois lugares. O forro do mercado é famoso: comida farta e pombo chegando toda semana, mas os ratos atacam os ninhos e muitas ninhadas se perdem. A marquise da biblioteca não tem fama e tem comida só na medida, mas quase todos os filhotes crescem e voam. Qual escolher?",
       "option_a": {
@@ -369,6 +385,7 @@
       "tier": 8
     },
     {
+      "id": "q17",
       "category": "Espaço e metapopulações - Fragmentação e qualidade do habitat urbano",
       "scenario": "Vem aí uma frente fria com chuva e vento forte, bem na época dos ovos! Você está escolhendo entre um beiral estreito e aberto, com vista linda e sol da manhã, e um cantinho fundo debaixo de uma marquise larga, protegido do vento e da chuva. O que fazer?",
       "option_a": {
@@ -393,6 +410,7 @@
       "tier": 8
     },
     {
+      "id": "q18",
       "category": "Espaço e metapopulações - Fragmentação e qualidade do habitat urbano",
       "scenario": "Você achou o abrigo dos sonhos: forro seco, protegido e sem predadores! Só que ele fica num bairro de prédios de vidro e ruas limpinhas, sem uma migalha e sem água, e tudo fica bem longe. Outro lugar, um beiral apenas razoável, fica pertinho de uma padaria e de uma fonte. O que fazer?",
       "option_a": {
@@ -413,6 +431,7 @@
       "tier": 8
     },
     {
+      "id": "q19",
       "category": "Interações com outras espécies - Nicho ecológico e sinantropia",
       "scenario": "O outono chegou e as sementes que o bando adora estão acabando, porque as árvores da praça já soltaram tudo. No chão da calçada tem migalhas de pão, pedacinhos de fruta e até insetinhos nas frestas. Alguém do bando avisa: \"Pombo que se preze só come sementes!\" O que fazer?",
       "option_a": {
@@ -433,6 +452,7 @@
       "tier": 9
     },
     {
+      "id": "q20",
       "category": "Interações com outras espécies - Nicho ecológico e sinantropia",
       "scenario": "Uma turma do bando anda cansada da vida na cidade, com tanto barulho, gente e ônibus. Ouviram falar de uma mata grande e silenciosa, bem longe, sem carros nem humanos por perto. O que fazer?",
       "option_a": {
@@ -453,6 +473,7 @@
       "tier": 9
     },
     {
+      "id": "q21",
       "category": "Interações com outras espécies - Nicho ecológico e sinantropia",
       "scenario": "Você é um pombo jovem e vai escolher o lugar do primeiro ninho. No parque tem galhos finos de árvore, que balançam ao vento e é onde muito passarinho faz ninho. Num prédio antigo tem uma reentrância funda e seca numa parede bem alta. O que fazer?",
       "option_a": {
@@ -473,6 +494,7 @@
       "tier": 9
     },
     {
+      "id": "q22",
       "category": "Interações com outras espécies - Nicho ecológico e sinantropia",
       "scenario": "O inverno chegou com noites geladas. Na praça tem galhos de árvore com vento úmido. Na parede de uma padaria, uma saída morna de ar do forno deixa um cantinho aquecido a noite toda. Alguém do bando acha esquisito dormir perto de uma máquina. O que fazer?",
       "option_a": {
@@ -497,6 +519,7 @@
       "tier": 9
     },
     {
+      "id": "q23",
       "category": "Interações com outras espécies - Nicho ecológico e sinantropia",
       "scenario": "Duas fontes de comida apareceram. Uma é uma lixeira aberta e transbordando, com restos de vários dias, comida amolecida e cheirando mal. A outra é um canteiro com sementes e migalhas de pão fresco espalhadas pelo chão. Alguém do bando lembra: \"Onívoro come de tudo, então a lixeira serve!\" O que fazer?",
       "option_a": {

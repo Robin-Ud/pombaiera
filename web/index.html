@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <!-- Tela inicial -->
@@ -86,6 +86,13 @@
     <h1 id="end-title"></h1>
     <p id="end-msg" class="tagline"></p>
     <div class="stats" id="stats"></div>
+    <div id="rating" class="rating">
+      <p class="rating-q">O que achou do jogo?</p>
+      <div id="stars" class="stars"></div>
+      <textarea id="rating-comment" maxlength="500" rows="3" placeholder="Quer contar mais? (opcional)"></textarea>
+      <button id="btn-rate" class="btn-big btn-secondary" disabled>Enviar avaliação</button>
+    </div>
+    <p id="rating-thanks" class="rating-thanks hidden">Obrigado pela avaliação! 🕊️</p>
     <button id="btn-again" class="btn-big">Jogar de novo <kbd>Enter</kbd></button>
   </section>
 
@@ -109,7 +116,8 @@
     </div>
   </div>
 
-  <script src="perguntas.js?v=6"></script>
-  <script src="game.js?v=6"></script>
+  <script src="metrics.js?v=7"></script>
+  <script src="perguntas.js?v=7"></script>
+  <script src="game.js?v=7"></script>
 </body>
 </html>

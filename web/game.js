@@ -380,7 +380,7 @@ if (typeof document !== "undefined") {
     if (read) pendingAnswer.data.readMs = Math.round(performance.now() - pendingAnswer.revealedAt);
     Metrics.track("answer", pendingAnswer.id, pendingAnswer.data);
     pendingAnswer = null;
-    if (state.round % 5 === 0) Metrics.flush();
+    Metrics.flush(); // manda na hora: o painel ao vivo mostra cada resposta assim que a pessoa avança
   }
 
   function onNext() {

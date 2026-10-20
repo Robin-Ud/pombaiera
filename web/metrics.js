@@ -61,6 +61,7 @@ const Metrics = (() => {
   }
   let sessionId = null;
   let sending = false;
+  let again = false; // pediram outro envio enquanto um estava em andamento
 
   function track(type, questionId, data) {
     if (!enabled || !sessionId) return;
@@ -79,7 +80,8 @@ const Metrics = (() => {
   }
 
   async function flush() {
-    if (!enabled || sending || navigator.onLine === false) return;
+    if (sending) { again = true; return; }
+    if (!enabled || navigator.onLine === false) return;
     const batch = loadQueue().slice(0, BATCH);
     if (!batch.length) return;
     sending = true;
@@ -99,6 +101,7 @@ const Metrics = (() => {
       }
     } catch { /* sem internet: fica na fila */ }
     sending = false;
+    if (again) { again = false; flush(); }
   }
 
   // Selo no canto para não esquecer que este aparelho não conta.

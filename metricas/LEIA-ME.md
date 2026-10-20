@@ -69,8 +69,8 @@ Na primeira vez ele pede a chave **secreta** (Supabase → Project Settings → 
 a `sb_secret_...`) e guarda em `metricas/.chave-secreta`, que o git ignora. Ela fica só no seu computador:
 a página fala com o `ao_vivo.py`, e só ele fala com o Supabase. Nunca cole essa chave no `web/`.
 
-- O início da partida aparece na hora; as respostas chegam de 5 em 5 rodadas, no fim ou quando a pessoa
-  fecha o app (é assim que o jogo economiza internet).
+- Cada resposta chega quando a pessoa aperta "Próxima rodada" (antes disso o jogo ainda está medindo
+  quanto tempo ela passa lendo a explicação).
 - Comentários ficam escondidos (pra não projetar algo inesperado); aperte <kbd>C</kbd> pra mostrar.
 - Se aparecer "permission denied", rode no SQL Editor: `grant select on public.events to service_role;`
 - Pra demonstrar, jogue num aparelho marcado com `?teste`: a partida aparece no painel com o selo 🧪 e não entra nos números.

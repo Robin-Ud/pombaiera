@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pombo ao vivo</title>
+<style>
+  /* mesmas cores do jogo (web/style.css) */
+  :root {
+    --bg: #16292e; --card: #1f383e; --line: #34575f; --text: #f1efe8; --muted: #a6bdbb;
+    --accent: #e9b949; --good: #6cc592; --bad: #e07a6a; --blue: #7fbfd4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.4;
+    padding: 28px 32px; display: grid; gap: 24px; grid-template-rows: auto auto 1fr;
+  }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 2.2rem; }
+  h1 span { color: var(--muted); font-weight: 400; }
+  #status { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 1.1rem; }
+  #dot { width: 14px; height: 14px; border-radius: 50%; background: var(--muted); }
+  #dot.ok { background: var(--good); animation: pulse 2s infinite; }
+  #dot.erro { background: var(--bad); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 #6cc59288; } 70% { box-shadow: 0 0 0 12px #6cc59200; } 100% { box-shadow: 0 0 0 0 #6cc59200; } }
+
+  #erro { background: #e07a6a22; border: 2px solid var(--bad); border-radius: 12px; padding: 16px 20px; font-size: 1.1rem; }
+  #erro code { background: #0003; padding: 2px 6px; border-radius: 4px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+  .kpi { background: var(--card); border-radius: 14px; padding: 16px 18px; transition: background .6s; }
+  .kpi b { display: block; font-size: 2.6rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .kpi span { color: var(--muted); font-size: 1rem; }
+  .kpi.bump { background: #e9b94955; transition: none; }
+  #k-jogando { color: var(--good); }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; min-height: 0; }
+  section { background: var(--card); border-radius: 14px; padding: 18px 20px; min-height: 0; display: flex; flex-direction: column; }
+  h2 { font-size: 1.05rem; color: var(--muted); font-weight: 500; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; }
+
+  #feed { list-style: none; overflow: hidden; display: grid; gap: 8px; align-content: start; }
+  #feed li { display: grid; grid-template-columns: 5.2em 2em 1fr; gap: 10px; align-items: baseline; font-size: 1.2rem;
+             padding: 8px 10px; border-radius: 10px; border-left: 4px solid transparent; }
+  #feed li.novo { animation: chega 2.5s ease-out; }
+  @keyframes chega { 0% { background: #e9b94966; transform: translateX(-12px); } 20% { transform: none; } 100% { background: transparent; } }
+  #feed .hora { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 1rem; }
+  #feed .quem { color: var(--muted); font-size: .95rem; }
+  #feed .bom { border-left-color: var(--good); }
+  #feed .ruim { border-left-color: var(--bad); }
+  #feed .fim { border-left-color: var(--accent); }
+  #feed li.teste { opacity: .55; }
+  #feed .selo { background: var(--accent); color: var(--bg); border-radius: 99px; padding: 0 8px; font-size: .8rem; font-weight: 600; }
+  #feed .coment { display: block; color: var(--muted); font-style: italic; font-size: 1rem; }
+  .vazio { color: var(--muted); font-size: 1.1rem; }
+
+  #barras { flex: 1; display: flex; align-items: flex-end; gap: 4px; min-height: 160px; }
+  #barras div { flex: 1; background: var(--blue); border-radius: 4px 4px 0 0; min-height: 2px; position: relative; transition: height .4s; }
+  #barras div.agora { background: var(--accent); }
+  #barras-eixo { display: flex; justify-content: space-between; color: var(--muted); font-size: .9rem; margin-top: 6px; }
+  #categorias { margin-top: 18px; display: grid; gap: 6px; }
+  .cat { display: grid; grid-template-columns: 1fr 3.5em; gap: 8px; font-size: .95rem; align-items: center; }
+  .cat .trilho { grid-column: 1 / -1; height: 6px; background: #0003; border-radius: 3px; }
+  .cat .trilho i { display: block; height: 100%; background: var(--good); border-radius: 3px; }
+  .cat b { text-align: right; font-variant-numeric: tabular-nums; }
+
+  footer { color: var(--muted); font-size: .9rem; }
+  kbd { border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } body { padding: 16px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🐦 Jogo do Pombo <span>· dados chegando ao vivo</span></h1>
+  <div id="status"><div id="dot"></div><span id="status-txt">conectando…</span></div>
+</header>
+
+<div id="erro" hidden></div>
+
+<div class="kpis">
+  <div class="kpi" id="kpi-partidas"><b id="k-partidas">–</b><span>partidas</span></div>
+  <div class="kpi" id="kpi-jogando"><b id="k-jogando">–</b><span>jogando agora</span></div>
+  <div class="kpi" id="kpi-respostas"><b id="k-respostas">–</b><span>respostas</span></div>
+  <div class="kpi" id="kpi-acerto"><b id="k-acerto">–</b><span>escolheram a melhor</span></div>
+  <div class="kpi" id="kpi-sobrev"><b id="k-sobrev">–</b><span>bandos sobreviveram</span></div>
+  <div class="kpi" id="kpi-nota"><b id="k-nota">–</b><span>nota média</span></div>
+</div>
+
+<main>
+  <section>
+    <h2>Chegando agora</h2>
+    <ul id="feed"><li class="vazio">Esperando o primeiro evento… abra o jogo no celular e comece uma partida.</li></ul>
+  </section>
+  <section>
+    <h2>Eventos por minuto · últimos 30 min</h2>
+    <div id="barras"></div>
+    <div id="barras-eixo"><span>−30 min</span><span>agora</span></div>
+    <h2 style="margin-top:22px">Acerto por tema</h2>
+    <div id="categorias"></div>
+  </section>
+</main>
+
+<footer>
+  O jogo manda os dados em lotes: o início da partida chega na hora; as respostas, a cada 5 rodadas, no fim
+  ou quando o app é fechado. Atualiza a cada 2 s. 🧪 = aparelho de teste: aparece, mas fica fora dos números. <kbd>C</kbd> mostra/esconde comentários.
+</footer>
+
+<script>
+"use strict";
+const POLL_MS = 2000;
+const FEED_MAX = 14;
+const $ = (s) => document.querySelector(s);
+
+const vistos = new Set();   // uid: reenvios do aparelho viram duplicatas
+const eventos = [];
+let ultimoId = 0;
+let ultimoOk = 0;
+let mostrarComentarios = false;
+
+const hora = (iso) => new Date(iso).toLocaleTimeString("pt-BR");
+const jogador = (e) => "#" + e.player_id.slice(0, 4);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const teste = (e) => e.data?.test === true;  // aparelho marcado com ?teste no jogo
+const sinal = (n) => (n > 0 ? "+" : n < 0 ? "−" : "±") + Math.abs(n);
+
+function descrever(e) {
+  const d = e.data || {};
+  switch (e.type) {
+    case "start":
+      return { icone: "🐣", cls: "", txt: "Nova partida começou" };
+    case "answer": {
+      const cat = d.category ? ` · ${esc(d.category.split(" - ")[0])}` : "";
+      const res = d.chosenBest ? "melhor escolha" : "escolha ruim";
+      const ovo = d.egg ? " 🥚" : "";
+      const sobe = d.levelUp ? ` · virou <b>${esc(d.levelUp)}</b>!` : "";
+      return {
+        icone: d.chosenBest ? "✅" : "❌", cls: d.chosenBest ? "bom" : "ruim",
+        txt: `Rodada ${d.round ?? "?"}${cat} — ${res} (${sinal(d.delta ?? 0)} → <b>${d.pop}</b> pombos)${ovo}${sobe}`,
+      };
+    }
+    case "end":
+      return d.survived
+        ? { icone: "🏆", cls: "fim", txt: `Sobreviveu como <b>${esc(d.band)}</b> com ${d.pop} pombos · ${d.bestChoices}/${d.round} boas escolhas` }
+        : { icone: "💀", cls: "fim", txt: `Bando extinto na rodada ${d.round}` };
+    case "rating": {
+      const n = Math.max(0, Math.min(5, d.stars | 0));
+      const c = d.comment && mostrarComentarios ? `<span class="coment">“${esc(d.comment)}”</span>` : "";
+      return { icone: "⭐", cls: "fim", txt: `Avaliou ${"★".repeat(n)}${"☆".repeat(5 - n)}${c}` };
+    }
+  }
+  return { icone: "•", cls: "", txt: esc(e.type) };
+}
+
+function linha(e, novo) {
+  const { icone, cls, txt } = descrever(e);
+  const li = document.createElement("li");
+  li.className = cls + (novo ? " novo" : "") + (teste(e) ? " teste" : "");
+  li.innerHTML = `<span class="hora">${hora(e.created_at)}</span><span>${icone}</span>
+    <span>${txt} <span class="quem">${jogador(e)}</span>${teste(e) ? ' <span class="selo">🧪 teste · não conta</span>' : ""}</span>`;
+  return li;
+}
+
+function desenharFeed(novos) {
+  const feed = $("#feed");
+  if (!eventos.length) return;
+  if (novos === null) {  // carga inicial ou comentários ligados/desligados: redesenha tudo
+    feed.innerHTML = "";
+    eventos.slice(-FEED_MAX).reverse().forEach((e) => feed.appendChild(linha(e, false)));
+    return;
+  }
+  feed.querySelector(".vazio")?.remove();
+  novos.slice(-FEED_MAX).forEach((e) => feed.prepend(linha(e, true)));
+  while (feed.children.length > FEED_MAX) feed.lastElementChild.remove();
+}
+
+function pisca(id, valor) {
+  const el = $("#k-" + id);
+  if (el.textContent !== String(valor)) {
+    const caixa = el.parentElement;
+    if (el.textContent !== "–") {
+      caixa.classList.add("bump");
+      requestAnimationFrame(() => requestAnimationFrame(() => caixa.classList.remove("bump")));
+    }
+    el.textContent = valor;
+  }
+}
+
+function calcular() {
+  const sessoes = new Map();
+  let respostas = 0, melhores = 0, estrelas = 0, notas = 0;
+  const porCat = new Map();
+  const contam = eventos.filter((e) => !teste(e));
+  for (const e of contam) {
+    const s = sessoes.get(e.session_id) || { inicio: null, fim: null, ultimo: 0, pop: null };
+    const t = Date.parse(e.created_at);
+    s.ultimo = Math.max(s.ultimo, t);
+    if (e.type === "start") s.inicio = t;
+    if (e.type === "end") s.fim = e.data;
+    if (e.type === "answer") {
+      respostas++;
+      if (e.data.chosenBest) melhores++;
+      s.pop = e.data.pop;
+      const cat = (e.data.category || "?").split(" - ")[0];
+      const c = porCat.get(cat) || [0, 0];
+      c[0] += e.data.chosenBest ? 1 : 0; c[1]++;
+      porCat.set(cat, c);
+    }
+    if (e.type === "rating" && e.data.stars) { estrelas += e.data.stars; notas++; }
+    sessoes.set(e.session_id, s);
+  }
+  const agora = Date.now();
+  const iniciadas = [...sessoes.values()].filter((s) => s.inicio !== null);
+  const jogando = iniciadas.filter((s) => !s.fim && s.pop !== 0 && agora - s.ultimo < 15 * 60e3).length;
+  const finais = iniciadas.filter((s) => s.fim);
+  const sobrev = finais.filter((s) => s.fim.survived).length;
+
+  pisca("partidas", iniciadas.length);
+  pisca("jogando", jogando);
+  pisca("respostas", respostas);
+  pisca("acerto", respostas ? Math.round((100 * melhores) / respostas) + "%" : "–");
+  pisca("sobrev", finais.length ? `${sobrev}/${finais.length}` : "–");
+  pisca("nota", notas ? (estrelas / notas).toFixed(1) + "★" : "–");
+
+  // barras: eventos por minuto nos últimos 30 min
+  const minutos = new Array(30).fill(0);
+  for (const e of contam) {
+    const m = Math.floor((agora - Date.parse(e.created_at)) / 60e3);
+    if (m >= 0 && m < 30) minutos[29 - m]++;
+  }
+  const max = Math.max(1, ...minutos);
+  $("#barras").innerHTML = minutos
+    .map((n, i) => `<div class="${i === 29 ? "agora" : ""}" style="height:${(100 * n) / max}%" title="${n} eventos"></div>`)
+    .join("");
+
+  $("#categorias").innerHTML = [...porCat.entries()]
+    .sort((a, b) => b[1][1] - a[1][1])
+    .map(([cat, [ok, n]]) => {
+      const pct = Math.round((100 * ok) / n);
+      return `<div class="cat"><span>${esc(cat)}</span><b>${pct}%</b><div class="trilho"><i style="width:${pct}%"></i></div></div>`;
+    })
+    .join("") || `<span class="vazio">Sem respostas ainda.</span>`;
+}
+
+function mostrarErro(status, corpo) {
+  let msg = corpo?.message || `erro ${status}`;
+  if (corpo?.code === "42501") {
+    msg += `<br>Rode no SQL Editor do Supabase: <code>grant select on public.events to service_role;</code>`;
+  } else if (status === 401 || status === 403) {
+    msg += "<br>A chave secreta não foi aceita. Apague <code>metricas/.chave-secreta</code> e rode de novo.";
+  } else if (status === 502 || status === 503 || status === 540) {
+    msg += "<br>O projeto pode estar pausado: o Supabase grátis pausa depois de 7 dias parado. Restaure no painel.";
+  }
+  $("#erro").innerHTML = `⚠ ${msg}`;
+  $("#erro").hidden = false;
+  $("#dot").className = "erro";
+  $("#status-txt").textContent = "sem conexão";
+}
+
+async function buscar() {
+  const novos = [];
+  for (;;) {
+    const r = await fetch(`/eventos?depois=${ultimoId}`);
+    const corpo = await r.json().catch(() => null);
+    if (!r.ok) throw { status: r.status, corpo };
+    for (const e of corpo) {
+      ultimoId = Math.max(ultimoId, e.id);
+      if (vistos.has(e.uid)) continue;
+      vistos.add(e.uid);
+      eventos.push(e);
+      novos.push(e);
+    }
+    if (corpo.length < 1000) return novos;
+  }
+}
+
+async function ciclo(primeira) {
+  try {
+    const novos = await buscar();
+    $("#erro").hidden = true;
+    $("#dot").className = "ok";
+    ultimoOk = Date.now();
+    if (primeira) desenharFeed(null);
+    else if (novos.length) desenharFeed(novos);
+    calcular();
+  } catch (err) {
+    if (err?.status) mostrarErro(err.status, err.corpo);
+    else mostrarErro(0, { message: "O ao_vivo.py parou? Rode de novo no terminal." });
+  }
+  setTimeout(() => ciclo(false), POLL_MS);
+}
+
+setInterval(() => {
+  if (!ultimoOk) return;
+  const s = Math.round((Date.now() - ultimoOk) / 1000);
+  if ($("#dot").className === "ok") $("#status-txt").textContent = `conectado · ${eventos.length} eventos · atualizado há ${s}s`;
+}, 500);
+
+addEventListener("keydown", (ev) => {
+  if (ev.key.toLowerCase() === "c") {
+    mostrarComentarios = !mostrarComentarios;
+    desenharFeed(null);
+  }
+});
+
+ciclo(true);
+</script>
+</body>
+</html>

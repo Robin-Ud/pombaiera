@@ -25,6 +25,7 @@ create index if not exists events_session_idx on public.events (session_id);
 alter table public.events enable row level security;
 revoke all on public.events from anon, authenticated;
 grant insert on public.events to anon;
+grant select on public.events to service_role;  -- o painel ao vivo (metricas/ao_vivo.py) lê com a chave secreta
 drop policy if exists "jogo pode inserir" on public.events;
 create policy "jogo pode inserir" on public.events for insert to anon with check (true);
 
@@ -32,8 +33,11 @@ create policy "jogo pode inserir" on public.events for insert to anon with check
 create schema if not exists metricas;
 revoke all on schema metricas from public, anon, authenticated;
 
+-- Partidas de aparelhos de teste (jogo aberto uma vez com ?teste) chegam com "test": true e ficam de fora.
 create or replace view metricas.eventos as
-select distinct on (uid) * from public.events order by uid, id;
+select distinct on (uid) * from public.events
+where not coalesce((data ->> 'test')::boolean, false)
+order by uid, id;
 
 create or replace view metricas.partidas as
 select

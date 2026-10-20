@@ -26,6 +26,12 @@ no Supabase. Só você consegue ver as anotações.
 Enquanto isso não está preenchido, o jogo funciona normalmente, não manda nada e esconde a avaliação.
 Partidas abertas com `?auto`, `?seed` ou `?debug` também não contam.
 
+### Aparelho de teste
+Abra o jogo **uma vez** com `?teste` no fim do endereço (ex.: `robin-ud.github.io/pombaiera/?teste`). Daí em
+diante, esse aparelho fica marcado: aparece um selo 🧪 teste no canto, as partidas dele chegam no banco com
+`"test": true` e ficam fora de todos os relatórios. Pra desmarcar, abra uma vez com `?teste=0`.
+A diferença pro `?debug`: com `?teste` os dados chegam (dá pra mostrar no painel ao vivo), só não contam.
+
 ## Ver os resultados
 
 No Supabase, abra **Table Editor** e troque o schema de `public` para **`metricas`** no seletor do topo.
@@ -49,3 +55,27 @@ Ou rode no SQL Editor, por exemplo, `select * from metricas.resumo;`.
 O código da pergunta (`q01`, `q02`…) é o campo `id` em `perguntas.json`. A coluna `inicio_do_texto` ajuda a reconhecer.
 
 Uma partida só conta como "desistiu" uma hora depois de começar sem terminar. Antes disso, ela aparece como `jogando`.
+
+## Painel ao vivo (pra apresentar)
+
+Mostra as partidas chegando enquanto a turma joga: cada pombo que nasce, cada resposta, cada final.
+Bom pra projetar e provar que o banco está funcionando.
+
+```bash
+python3 metricas/ao_vivo.py      # abre http://localhost:8790
+```
+
+Na primeira vez ele pede a chave **secreta** (Supabase → Project Settings → API Keys → *Secret keys*,
+a `sb_secret_...`) e guarda em `metricas/.chave-secreta`, que o git ignora. Ela fica só no seu computador:
+a página fala com o `ao_vivo.py`, e só ele fala com o Supabase. Nunca cole essa chave no `web/`.
+
+- O início da partida aparece na hora; as respostas chegam de 5 em 5 rodadas, no fim ou quando a pessoa
+  fecha o app (é assim que o jogo economiza internet).
+- Comentários ficam escondidos (pra não projetar algo inesperado); aperte <kbd>C</kbd> pra mostrar.
+- Se aparecer "permission denied", rode no SQL Editor: `grant select on public.events to service_role;`
+- Pra demonstrar, jogue num aparelho marcado com `?teste`: a partida aparece no painel com o selo 🧪 e não entra nos números.
+
+### Zerar antes de uma apresentação
+Primeiro guarde uma cópia (fica em `metricas/backups/`, fora do git), depois rode no SQL Editor:
+`delete from public.events;` e dê F5 no painel. Não use `truncate ... restart identity`: o painel aberto
+se guia pelo número do último evento e ficaria esperando números que já passaram.

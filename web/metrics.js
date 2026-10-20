@@ -9,9 +9,10 @@ const Metrics = (() => {
   const SUPABASE_URL = "https://mrikgmovjiboencrwqci.supabase.co";
   const SUPABASE_KEY = "sb_publishable_kv1bo9f3hcfjLCF3_Vs0_g_zEvHpOTP";
 
-  const VERSION = 7;
+  const VERSION = 8;
   const QUEUE_KEY = "jogo-do-pombo-fila";
   const PLAYER_KEY = "jogo-do-pombo-jogador";
+  const TESTER_KEY = "jogo-do-pombo-teste";
   const MAX_QUEUE = 1000;
   const BATCH = 100;
 
@@ -42,6 +43,17 @@ const Metrics = (() => {
     set(QUEUE_KEY, JSON.stringify(queue.slice(-MAX_QUEUE)));
   }
 
+  // Aparelho de teste: abra uma vez com ?teste e tudo dele vai marcado ("test": true), chega no banco
+  // mas fica fora dos relatórios. ?teste=0 desmarca. Diferente de ?debug, que nem manda nada.
+  if (params.has("teste")) {
+    if (params.get("teste") === "0") {
+      try { localStorage.removeItem(TESTER_KEY); } catch { /* ok */ }
+    } else {
+      set(TESTER_KEY, "1");
+    }
+  }
+  const tester = get(TESTER_KEY) === "1";
+
   let playerId = get(PLAYER_KEY);
   if (!playerId) {
     playerId = uuid();
@@ -54,7 +66,7 @@ const Metrics = (() => {
     if (!enabled || !sessionId) return;
     try {
       const queue = loadQueue();
-      queue.push({ uid: uuid(), session_id: sessionId, player_id: playerId, type, question_id: questionId ?? null, data: data ?? {} });
+      queue.push({ uid: uuid(), session_id: sessionId, player_id: playerId, type, question_id: questionId ?? null, data: tester ? { ...data, test: true } : data ?? {} });
       saveQueue(queue);
     } catch { /* ok */ }
   }
@@ -89,11 +101,23 @@ const Metrics = (() => {
     sending = false;
   }
 
+  // Selo no canto para não esquecer que este aparelho não conta.
+  if (enabled && tester) {
+    addEventListener("DOMContentLoaded", () => {
+      const selo = document.createElement("div");
+      selo.textContent = "🧪 teste";
+      selo.title = "Partidas deste aparelho não entram nas métricas. Abra com ?teste=0 para desmarcar.";
+      selo.style.cssText = "position:fixed;top:8px;right:8px;z-index:99;padding:2px 10px;border-radius:99px;"
+        + "background:#e9b949;color:#16292e;font-size:.8rem;font-weight:600;pointer-events:none";
+      document.body.appendChild(selo);
+    });
+  }
+
   if (enabled) {
     addEventListener("online", flush);
     addEventListener("pagehide", flush);
     flush(); // sobras de partidas anteriores
   }
 
-  return { enabled, start, track, flush };
+  return { enabled, tester, start, track, flush };
 })();

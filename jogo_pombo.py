@@ -284,7 +284,7 @@ BANDS = [
 
 MIN_GAP = 3
 # Cada partida sorteia estas rodadas do banco de perguntas; o resto fica para a próxima.
-ROUNDS = 20
+ROUNDS = 12
 
 BAND_FINAL_MESSAGE = {
     "ninho": "Seu bando mal saiu do ninho, mas sobreviveu — um começo frágil e valioso.",

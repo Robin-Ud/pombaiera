@@ -11,7 +11,7 @@ const BANDS = [
 
 const MIN_GAP = 3;
 // Cada partida sorteia estas rodadas do banco de perguntas; o resto fica para a próxima.
-const ROUNDS = 20;
+const ROUNDS = 12;
 const START_POP = 5;
 
 const BAND_FINAL_MESSAGE = {

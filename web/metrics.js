@@ -9,7 +9,7 @@ const Metrics = (() => {
   const SUPABASE_URL = "https://mrikgmovjiboencrwqci.supabase.co";
   const SUPABASE_KEY = "sb_publishable_kv1bo9f3hcfjLCF3_Vs0_g_zEvHpOTP";
 
-  const VERSION = 8;
+  const VERSION = 9;
   const QUEUE_KEY = "jogo-do-pombo-fila";
   const PLAYER_KEY = "jogo-do-pombo-jogador";
   const TESTER_KEY = "jogo-do-pombo-teste";

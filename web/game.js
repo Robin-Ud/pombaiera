@@ -281,7 +281,10 @@ if (typeof document !== "undefined") {
 
     $("#category").textContent = current.category;
     $("#scenario").textContent = current.scenario;
+    // A ordem das opções é sorteada: sem isso a certa era sempre A no começo e sempre B no fim.
+    state.swapped = rng() < 0.5;
     for (const btn of $$(".option")) {
+      btn.dataset.opt = (btn.dataset.slot === "b") === state.swapped ? "a" : "b";
       btn.querySelector(".opt-label").textContent = current["option_" + btn.dataset.opt].label;
       btn.disabled = false;
       btn.className = "option";
@@ -359,7 +362,7 @@ if (typeof document !== "undefined") {
     const answer = {
       round: state.round, category: current.category, scenario: current.scenario.slice(0, 80), choice: letter,
       chosenBest: res.chosenBest, risky: res.risky, success: res.success, delta: res.delta,
-      pop: state.pop, band: getBand(state.pop).name, streak: state.streak,
+      pop: state.pop, band: getBand(state.pop).name, streak: state.streak, swapped: state.swapped,
       decisionMs: Math.round(state.decisionMs), t: Math.round(performance.now() - state.startedAt),
     };
     pendingAnswer = { id: current.id, data: answer, revealedAt: performance.now() };
@@ -571,8 +574,8 @@ if (typeof document !== "undefined") {
 
     const modalOpen = visible("#modal-level") || visible("#modal-egg");
     if (!onScreen("screen-game") || modalOpen) return;
-    const opt = { a: "a", 1: "a", arrowleft: "a", b: "b", 2: "b", arrowright: "b" }[key];
-    const btn = opt && $(`.option[data-opt="${opt}"]`);
+    const slot = { a: "a", 1: "a", arrowleft: "a", b: "b", 2: "b", arrowright: "b" }[key];
+    const btn = slot && $(`.option[data-slot="${slot}"]`);
     if (btn && !btn.disabled) {
       e.preventDefault();
       btn.click();

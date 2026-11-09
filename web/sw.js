@@ -1,13 +1,13 @@
 // Guarda o jogo no aparelho para abrir sem internet.
 // Responde do cache e atualiza em segundo plano: uma mudança publicada aparece na abertura seguinte.
-const CACHE = "pombo-v4";
+const CACHE = "pombo-v5";
 const FILES = [
   "./",
   "index.html",
-  "style.css?v=9",
-  "metrics.js?v=9",
-  "game.js?v=9",
-  "perguntas.js?v=9",
+  "style.css?v=10",
+  "metrics.js?v=10",
+  "game.js?v=10",
+  "perguntas.js?v=10",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",

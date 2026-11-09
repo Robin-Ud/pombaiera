@@ -9,7 +9,10 @@
     "Regulação populacional - Defasagem temporal",
     "Regulação populacional - Fatores dependentes da densidade",
     "Espaço e metapopulações - Fragmentação e qualidade do habitat urbano",
-    "Interações com outras espécies - Nicho ecológico e sinantropia"
+    "Interações com outras espécies - Nicho ecológico e sinantropia",
+    "Razão sexual",
+    "Crescimento exponencial e logístico",
+    "Competição interespecífica"
   ],
   "questions": [
     {
@@ -542,6 +545,531 @@
         "sorte": "A lixeira tinha acabado de receber comida fresca."
       },
       "tier": 9
+    },
+    {
+      "id": "q24",
+      "category": "Fecundidade",
+      "scenario": "Um casal de primeira viagem perdeu os ovos logo na primeira tentativa: uma ventania derrubou o ninho. Um amigo desanimado comenta: “Se não deu certo logo na primeira vez, é sinal de que a gente não nasceu pra isso.” Ainda tem comida de sobra e muita temporada pela frente. O que fazer?",
+      "option_a": {
+        "label": "Desistir de reproduzir nessa temporada, achando que o casal não leva jeito",
+        "effect": "loss",
+        "note": "sem novas tentativas, o casal não deixa filhote nenhum no ano"
+      },
+      "option_b": {
+        "label": "Refazer o ninho num lugar mais protegido e botar de novo",
+        "effect": "gain",
+        "note": "a postura é reposta e a nova tentativa tem chance de dar certo"
+      },
+      "feedback": [
+        "Pru-pru... perder ovos não encerra a temporada! Como nos reproduzimos o ano todo, o casal pode repor a postura e tentar de novo.",
+        "Pru-pru... uma ninhada perdida não é sentença: com comida e abrigo bom, as próximas podem dar certo. É assim que a Fecundidade se recupera.",
+        "Pru-pru... ninho que cai é como bicicleta que tomba: levanta, sacode a poeira e pedala!"
+      ],
+      "tier": 1
+    },
+    {
+      "id": "q25",
+      "category": "Fecundidade",
+      "scenario": "Você nasceu num prédio onde moram muitos pombos, e cada beiral está apertado. Agora, crescido e pronto para formar par, um conhecido conta que num prédio mais afastado tem menos movimento e beiral vago. Mas ficar na casa da família parece mais seguro, afinal é tudo o que você conhece. Onde fazer o primeiro ninho?",
+      "option_a": {
+        "label": "Ficar no prédio onde nasceu, com a família e o que já conhece",
+        "effect": "loss",
+        "note": "na colônia lotada, mais ovos se perdem e menos filhotes crescem"
+      },
+      "option_b": {
+        "label": "Mudar para o prédio mais vazio e fazer o ninho lá",
+        "effect": "gain",
+        "note": "com menos aperto, mais ovos viram filhotes que voam"
+      },
+      "feedback": [
+        "Pru-pru... quando um jovem deixa o lugar onde nasceu para fazer ninho em outro, isso se chama Dispersão.",
+        "Pru-pru... em colônia lotada, mais ovos quebram e menos filhotes crescem. Em estudos, jovens que se mudam para colônias mais vazias criam filhotes com mais sucesso.",
+        "Pru-pru... casa de família é boa, mas espaço também vale ouro. Ninho com folga, filhote feliz!"
+      ],
+      "tier": 1
+    },
+    {
+      "id": "q26",
+      "category": "Fecundidade",
+      "scenario": "A comida diminuiu faz semanas, mas a fêmea ainda se sente com energia para botar novos ovos. Um pombo otimista diz: “Botar ovo é fácil, é só ir botando que a comida volta.” Só que o casal já tem filhotes no ninho, crescendo rápido e sempre com fome. Segue o plano?",
+      "option_a": {
+        "label": "Seguir botando ovos novos, porque botar é fácil e a comida deve voltar",
+        "effect": "loss",
+        "note": "os ovos até chocam, mas falta comida para criar os filhotes, e muitos morrem no ninho"
+      },
+      "option_b": {
+        "label": "Segurar os ovos novos e guardar a comida para os filhotes que já estão no ninho",
+        "effect": "gain",
+        "note": "os filhotes atuais recebem o que precisam para crescer e chegar a voar"
+      },
+      "feedback": [
+        "Pru-pru... ter filhote custa energia, o chamado Custo Reprodutivo. E a parte cara não é botar o ovo, é criar o filhote.",
+        "Pru-pru... quando falta comida, os ovos ainda chocam, mas muitos filhotes não aguentam a criação e menos pombos chegam a voar.",
+        "Pru-pru... melhor criar bem os filhotes que já nasceram do que ganhar mais bocas para alimentar!"
+      ],
+      "tier": 1
+    },
+    {
+      "id": "q27",
+      "category": "Fecundidade",
+      "scenario": "A comida está boa e os beirais estão livres desde cedo na temporada, mas quase ninguém começou a botar. “A gente sempre espera o pico da primavera, quando todo mundo começa junto”, dizem os mais tradicionais. Um casal pensa em começar logo. Começar agora ou acompanhar a multidão?",
+      "option_a": {
+        "label": "Esperar o pico da primavera, junto com todo mundo",
+        "effect": "loss",
+        "note": "a temporada do casal fica curta, e as ninhadas que começam tarde criam menos descendentes"
+      },
+      "option_b": {
+        "label": "Começar já, assim que tem comida e ninho bom",
+        "effect": "gain",
+        "note": "a temporada se alonga e cabem mais ninhadas no ano"
+      },
+      "feedback": [
+        "Pru-pru... a Temporada Reprodutiva é o período em que o casal cria filhotes. A nossa é bem longa: criamos o ano todo, com pico na época mais quente.",
+        "Pru-pru... casais que começam cedo e param tarde fazem mais ninhadas, e mais filhotes deles chegam a virar reprodutores.",
+        "Pru-pru... quem chega cedo pega o ninho e a comida. Seja pontual!"
+      ],
+      "tier": 1
+    },
+    {
+      "id": "q28",
+      "category": "Fecundidade",
+      "scenario": "A fêmea precisa se preparar para botar. Atrás da padaria tem pão de sobra, fácil de pegar. No canteiro da praça tem sementes e grãos variados, que dão mais trabalho para juntar. Um pombo diz: “Comida é comida: barriga cheia bota ovo.” Qual cardápio escolher?",
+      "option_a": {
+        "label": "Pão à vontade, fácil e que enche a barriga",
+        "effect": "loss",
+        "note": "o pão dá energia, mas é um cardápio incompleto, e a fêmea não recebe tudo o que precisa para botar bem e criar filhotes fortes"
+      },
+      "option_b": {
+        "label": "Sementes e grãos variados do canteiro",
+        "effect": "gain",
+        "note": "um cardápio mais completo ajuda a fêmea a botar bem e a criar filhotes fortes"
+      },
+      "feedback": [
+        "Pru-pru... para ter boa Fecundidade, não basta encher a barriga: a comida também precisa ser de qualidade.",
+        "Pru-pru... pão dá energia, mas é um cardápio incompleto. Sementes e grãos variados são a nossa comida de verdade.",
+        "Pru-pru... barriga cheia nem sempre é barriga bem alimentada. Capriche no cardápio!"
+      ],
+      "tier": 1
+    },
+    {
+      "id": "q29",
+      "category": "Natalidade",
+      "scenario": "O casal escolheu um canto bom no beiral, mas o ninho está bem frouxo: um montinho solto de gravetos, sem fundo definido. Quando o ovo é posto, ele rola para perto da borda. Um pombo mais velho dá de ombros: “Ninho de pombo é simples mesmo, nunca precisou de capricho.” Vale caprichar mais no ninho?",
+      "option_a": {
+        "label": "Deixar o ninho do jeito que está, porque ninho de pombo é simples mesmo",
+        "effect": "loss",
+        "note": "os ovos rolam para fora ou esfriam, e muitos nunca chegam a eclodir"
+      },
+      "option_b": {
+        "label": "Juntar mais material e ajeitar uma cavidade no meio do ninho para os ovos ficarem no lugar",
+        "effect": "gain",
+        "note": "os ovos ficam aquecidos e protegidos, e mais deles chegam a eclodir"
+      },
+      "feedback": [
+        "Pru-pru... Natalidade é o número de filhotes que nascem vivos, e para nascer o ovo precisa ficar quentinho e no lugar.",
+        "Pru-pru... nosso ninho é mesmo simples, mas se o ovo rola ou esfria, o filhote não nasce. Um ninho mais firme poupa muitos ovos.",
+        "Pru-pru... simples não é sinônimo de desleixado. Capriche na caminha dos ovos!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q30",
+      "category": "Natalidade",
+      "scenario": "Já passou bem do prazo de 18 a 20 dias de choco, e o ovo continua parado e quietinho. O casal se dedicou tanto a ele que parece triste desistir agora. “Já chocamos tanto, não custa esperar só mais um pouquinho”, diz um deles. O que fazer?",
+      "option_a": {
+        "label": "Continuar chocando “só mais um pouquinho”, já que investiram tanto tempo nesse ovo",
+        "effect": "loss",
+        "note": "o ovo não vai eclodir, e o casal perde tempo que poderia usar numa nova ninhada"
+      },
+      "option_b": {
+        "label": "Aceitar que o ovo não vai eclodir e recomeçar com uma nova postura",
+        "effect": "gain",
+        "note": "o casal volta a produzir ovos que podem eclodir e dar novos filhotes"
+      },
+      "feedback": [
+        "Pru-pru... só entra na Natalidade quem nasce vivo, e o ovo de pombo costuma chocar em 18 a 20 dias.",
+        "Pru-pru... passou muito do prazo e nada? Provavelmente o ovo não é viável. Insistir é gastar tempo que daria para recomeçar.",
+        "Pru-pru... quem insiste num ovo parado perde a chance de ter outros. Bola pra frente!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q31",
+      "category": "Natalidade",
+      "scenario": "O bando quer saber quantos filhotes nascem por ano para planejar ninhos e comida. Um pombo sugere: “Basta contar os nascimentos do mês mais movimentado da primavera e multiplicar por doze.” Outro lembra que pombo bota ovos o ano todo, mas com altos e baixos. Como estimar?",
+      "option_a": {
+        "label": "Contar só no mês de pico e multiplicar por doze",
+        "effect": "loss",
+        "note": "a conta superestima os nascimentos do ano, e o bando planeja ninhos e comida para mais filhotes do que realmente nascem"
+      },
+      "option_b": {
+        "label": "Acompanhar os nascimentos ao longo de vários meses do ano",
+        "effect": "gain",
+        "note": "a conta fica mais realista, e o bando se prepara na medida certa"
+      },
+      "feedback": [
+        "Pru-pru... Natalidade é sempre “nascimentos por unidade de tempo”: por mês, por ano. A unidade de tempo importa!",
+        "Pru-pru... a gente bota ovos o ano todo, mas com mais ninhadas na época quente. Contar só o pico exagera o ano inteiro.",
+        "Pru-pru... multiplicar o melhor mês é chute otimista. Acompanhe o ano todo!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q32",
+      "category": "Natalidade",
+      "scenario": "Depois de uma temporada boa, a praça está cheia de filhotes recém-saídos do ninho. Um pombo faz as contas: “Quanto mais pombos na praça, mais nascimentos no mês que vem!” O bando quer saber quantos nascimentos esperar para preparar os ninhos. Quem deve entrar na conta?",
+      "option_a": {
+        "label": "Contar todos os pombos da praça, inclusive os filhotes que acabaram de sair do ninho",
+        "effect": "loss",
+        "note": "filhote ainda não reproduz, então a conta superestima os nascimentos e o bando prepara ninhos que ninguém vai usar tão cedo"
+      },
+      "option_b": {
+        "label": "Contar principalmente os adultos que já têm par e ninho",
+        "effect": "gain",
+        "note": "são eles que botam os ovos dos próximos nascimentos, e a conta fica mais próxima da realidade"
+      },
+      "feedback": [
+        "Pru-pru... quem faz a Natalidade são os adultos que reproduzem. Filhote recém-saído ainda não bota ovo: só começa com uns cinco meses ou mais.",
+        "Pru-pru... por isso o tamanho do bando e a Natalidade nem sempre andam juntos. O que conta é a Estrutura Etária: quantos estão na idade certa de reproduzir.",
+        "Pru-pru... contar penas não é contar ninhos. Conte quem de fato reproduz!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q33",
+      "category": "Natalidade",
+      "scenario": "Todo casal sonha com o ninho perfeito: seco, quentinho, protegido, perto de comida e água. Um pombo exigente recusa todos os cantos “bons o bastante” e espera aparecer o ninho dos sonhos. “Natalidade boa só em condição perfeita”, ele repete. Vale esperar o ninho perfeito?",
+      "option_a": {
+        "label": "Esperar o ninho perfeito, recusando os cantos “bons o bastante”",
+        "effect": "loss",
+        "note": "o ninho perfeito quase nunca aparece, e a espera custa semanas de ovos que poderiam estar eclodindo"
+      },
+      "option_b": {
+        "label": "Ficar com um canto bom o bastante, seco e protegido, e começar logo",
+        "effect": "gain",
+        "note": "o casal começa a ninhada sem demora, e os nascimentos chegam mais cedo"
+      },
+      "feedback": [
+        "Pru-pru... a Natalidade que a gente consegue na vida real quase sempre fica abaixo da máxima possível. Ambiente perfeito não existe.",
+        "Pru-pru... lugar bom o bastante já faz os ovos eclodirem. Cada semana de espera é um nascimento que deixa de acontecer.",
+        "Pru-pru... melhor um ninho bom hoje do que um perfeito que nunca vem!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q34",
+      "category": "Mortalidade",
+      "scenario": "Um carcará anda rondando o bairro. Na praça, o bando come junto, fazendo barulho e alvoroço. Um pombo comenta: “Bando grande chama atenção. Sozinho, eu passo despercebido no meio da paisagem.” Onde comer?",
+      "option_a": {
+        "label": "Comer sozinho num canto afastado, para não chamar atenção",
+        "effect": "loss",
+        "note": "sozinho, o pombo demora mais a ver o falcão e é o alvo mais fácil"
+      },
+      "option_b": {
+        "label": "Comer junto do bando, de olho na movimentação dos outros",
+        "effect": "gain",
+        "note": "com mais olhos vigiando, o falcão é visto mais cedo e fica mais difícil capturar alguém"
+      },
+      "feedback": [
+        "Pru-pru... Mortalidade é a taxa de pombos que morrem em certo tempo, e uma das causas é a predação.",
+        "Pru-pru... em bando, sempre tem alguém que vê o predador primeiro e dispara a fuga de todo mundo.",
+        "Pru-pru... quem anda sozinho não é discreto, é desprotegido. Bando é o melhor alarme!"
+      ],
+      "tier": 3
+    },
+    {
+      "id": "q35",
+      "category": "Mortalidade",
+      "scenario": "Você acabou de sair do ninho e já está atrás de comida. No centro da praça, os adultos cercam uma pilha de pipoca, empurrando e bicando. Nas beiradas, só tem migalhas espalhadas. Um colega jovem anima: “Quem não arrisca não petisca! Vamos direto na pilha!” Vale arriscar?",
+      "option_a": {
+        "label": "Ir direto na pilha do centro e disputar com os adultos",
+        "effect": "loss",
+        "note": "os adultos dominam, o jovem leva bicadas, come pouco e enfraquece, ficando mais exposto à fome e às doenças"
+      },
+      "option_b": {
+        "label": "Catar as migalhas das beiradas e observar de onde os adultos tiram comida",
+        "effect": "gain",
+        "note": "o jovem come sem briga e aprende onde há comida"
+      },
+      "feedback": [
+        "Pru-pru... a Mortalidade muda com a idade: nos pombos de cidade, os jovens morrem mais que os adultos.",
+        "Pru-pru... jovem ainda não sabe achar comida e perde a disputa para adulto. Em estudos, isso ajuda a explicar por que tantos jovens passam fome e adoecem.",
+        "Pru-pru... coragem é bom, mas observar antes de brigar é melhor!"
+      ],
+      "tier": 3
+    },
+    {
+      "id": "q36",
+      "category": "Mortalidade",
+      "scenario": "O bando compara dois bairros. No bairro grande, morrem muitos pombos todo mês, mas vive lá uma colônia enorme, e só uma pequena parte dela morre. No bairro pequeno, morrem poucos pombos, mas a colônia é minúscula, e uma parte grande dela some todo mês. Um pombo conclui: “Onde morrem mais pombos é onde está o perigo.” Qual bairro é mais perigoso para viver?",
+      "option_a": {
+        "label": "Fugir do bairro grande, onde morrem mais pombos",
+        "effect": "loss",
+        "note": "a taxa de mortalidade lá é menor, e quem foge troca um lugar mais seguro por um mais arriscado"
+      },
+      "option_b": {
+        "label": "Ficar no bairro grande, onde a parte do bando que morre é menor",
+        "effect": "gain",
+        "note": "o que importa é a proporção de pombos que morre, e não o total de mortes"
+      },
+      "feedback": [
+        "Pru-pru... Taxa de Mortalidade é a parte da população que morre em certo tempo, e não o total de mortes.",
+        "Pru-pru... colônia grande tem muitas mortes até quando é segura, só porque tem muito pombo. O que importa é a fatia do bando que se perde.",
+        "Pru-pru... número grande assusta, mas é a proporção que conta. Faça a conta direito!"
+      ],
+      "tier": 3
+    },
+    {
+      "id": "q37",
+      "category": "Crescimento exponencial e logístico",
+      "scenario": "O bando descobriu um terreno recém-limpo, cheio de vegetação e sementes, com pouquíssimo pombo disputando. Um pombo mais cauteloso acha melhor ir com calma e poupar energia, com medo de a fartura não durar. O que fazer?",
+      "option_a": {
+        "label": "Ir com calma, poupando energia e reproduzindo pouco, por precaução",
+        "effect": "loss",
+        "note": "não há disputa nenhuma ainda, e o bando perde a janela de fartura à toa"
+      },
+      "option_b": {
+        "label": "Aproveitar a fartura e reproduzir bastante, sem medo",
+        "effect": "gain",
+        "note": "com pouca gente e muita comida, o crescimento pode acelerar sem custo"
+      },
+      "feedback": [
+        "Pru-pru... quando tem pouco pombo e comida de sobra, a população cresce rápido e sem freio. Isso é Crescimento Exponencial.",
+        "Pru-pru... aqui ainda não tem ninguém disputando nada, então não existe motivo pra pisar no freio.",
+        "Pru-pru... economizar energia é ótimo quando o espaço aperta. Com fartura, é hora de acelerar!"
+      ],
+      "tier": 5
+    },
+    {
+      "id": "q38",
+      "category": "Crescimento exponencial e logístico",
+      "scenario": "Nos últimos tempos, cada ninhada traz menos filhote novo voando do que antes. Um pombo mais novo acha que o bando está sumindo e quer fugir para outra praça. Um pombo mais velho diz que isso é esperado, porque a praça está perto do limite que aguenta. O que fazer?",
+      "option_a": {
+        "label": "Fugir para outra praça, assustado com a desaceleração",
+        "effect": "loss",
+        "note": "abandona comida e abrigo que ainda sustentam bem o bando, só porque o ritmo ficou mais devagar"
+      },
+      "option_b": {
+        "label": "Ficar, porque desacelerar não é o mesmo que encolher",
+        "effect": "gain",
+        "note": "o bando continua crescendo, só que mais devagar, perto do tamanho máximo que a praça aguenta"
+      },
+      "feedback": [
+        "Pru-pru... perto do limite da praça, o Crescimento Logístico desacelera, só isso.",
+        "Pru-pru... desacelerar não é o mesmo que encolher! A população ainda cresce, só que mais devagar.",
+        "Pru-pru... indo mais devagar, também se chega lá. Nem toda calmaria é alarme!"
+      ],
+      "tier": 5
+    },
+    {
+      "id": "q39",
+      "category": "Crescimento exponencial e logístico",
+      "scenario": "Dois grupos de pombos colonizaram dois lugares diferentes ao mesmo tempo, os dois com pouca gente e bastante comida no início. Depois de um tempo, os dois bandos cresceram quase igual, rapidinho. Só que um lugar é um terreno pequeno ao lado de um estacionamento, e o outro é um parque enorme. Se os dois começaram do mesmo jeito, há por que esperar que seja diferente depois? O que fazer?",
+      "option_a": {
+        "label": "Manter o mesmo ritmo de reprodução que o bando do parque grande, já que o começo foi parecido",
+        "effect": "loss",
+        "note": "o terreno pequeno enche bem antes do parque, e o excesso de ninhada gera disputa e perde filhotes"
+      },
+      "option_b": {
+        "label": "Ir ajustando o ritmo aos poucos, de olho no tamanho do próprio lugar, sem se basear no bando vizinho",
+        "effect": "gain",
+        "note": "o bando cresce de acordo com o que o terreno realmente aguenta, sem desperdiçar ninhada"
+      },
+      "feedback": [
+        "Pru-pru... dois bandos podem começar crescendo parecido, mas isso não quer dizer que vão continuar iguais.",
+        "Pru-pru... o lugar pequeno enche logo e o Crescimento Logístico freia mais cedo. O lugar grande aguenta acelerar por mais tempo.",
+        "Pru-pru... cada bando tem seu próprio limite. Compare com o próprio terreno, não com o do vizinho!"
+      ],
+      "tier": 5
+    },
+    {
+      "id": "q40",
+      "category": "Competição interespecífica",
+      "scenario": "Debaixo de uma árvore caiu um sanduíche amassado: migalhas minúsculas se espalharam ao redor, e um bando de pardais já está em cima delas, rápido e ligeiro. No meio, sobraram pedaços grandes demais para o bico fino deles, quase intocados. Pra onde ir?",
+      "option_a": {
+        "label": "Mergulhar nas migalhas junto com os pardais, porque eles já estão lá e parece ser bom",
+        "effect": "loss",
+        "note": "os pardais são rápidos e levam a melhor nas migalhas miúdas, sobra pouco e cada pombo come mal"
+      },
+      "option_b": {
+        "label": "Focar nos pedaços grandes, que o bico fino do pardal não dá conta",
+        "effect": "gain",
+        "note": "comida garantida sem disputa, e o bando come bem"
+      },
+      "feedback": [
+        "Pru-pru... quando duas espécies diferentes brigam pelo mesmo alimento, isso é Competição Interespecífica. Pardal é outra espécie, e migalha miúda é prato dele.",
+        "Pru-pru... nosso bico é mais forte: dá pra quebrar pedaço grande que pardal nenhum consegue. Comida diferente, menos briga.",
+        "Pru-pru... quem disputa migalha com pardal perde tempo. Vá de pedação!"
+      ],
+      "tier": 9
+    },
+    {
+      "id": "q41",
+      "category": "Competição interespecífica",
+      "scenario": "Época de ninho chegando, e um buraco perfeito na parede de um prédio já está sendo espiado por um bando barulhento de maritacas, bem mais agressivas que qualquer pombo. Um companheiro mais afobado quer entrar logo na briga, “do jeito que sempre resolve com outros pombos”. Como agir?",
+      "option_a": {
+        "label": "Entrar na briga direto, do jeito que sempre resolve com outros pombos",
+        "effect": "loss",
+        "note": "maritacas bicam mais forte e em bando, o casal se machuca e perde a época toda de ninho"
+      },
+      "option_b": {
+        "label": "Procurar outro buraco, numa parede sem maritaca por perto",
+        "effect": "gain",
+        "note": "o casal começa o ninho sem briga e sem risco"
+      },
+      "feedback": [
+        "Pru-pru... maritaca é de outra espécie, e competição com outra espécie pode ser bem mais dura do que com outro pombo.",
+        "Pru-pru... bando de maritaca briga em grupo e bica forte. Não é a mesma guerra de sempre.",
+        "Pru-pru... contra inimigo diferente, estratégia diferente. Às vezes, o buraco ao lado resolve!"
+      ],
+      "tier": 9
+    },
+    {
+      "id": "q42",
+      "category": "Competição interespecífica",
+      "scenario": "A lixeira atrás do restaurante enche de sobras todo fim de tarde. De noite, ela vira point de ratos, que disputam cada pedaço com dentada forte. De manhã cedo, antes dos ratos aparecerem, a mesma comida já está lá, livre. Quando ir?",
+      "option_a": {
+        "label": "De noite, quando a comida está mais fresca",
+        "effect": "loss",
+        "note": "os ratos dominam a lixeira à noite, e brigar com eles sai caro"
+      },
+      "option_b": {
+        "label": "De manhãzinha, antes dos ratos aparecerem",
+        "effect": "gain",
+        "note": "a mesma comida, sem disputa nenhuma"
+      },
+      "feedback": [
+        "Pru-pru... rato e pombo comem coisa parecida, e isso é Competição Interespecífica. Mas dá pra driblar brigando por horário, não só por espaço.",
+        "Pru-pru... rato é bicho de noite. Pombo acorda cedo. Comendo em horários diferentes, ninguém disputa com ninguém.",
+        "Pru-pru... cada um no seu turno! Madrugador come sem fila."
+      ],
+      "tier": 9
+    },
+    {
+      "id": "q43",
+      "category": "Competição interespecífica",
+      "scenario": "No lago do parque, um bando de patos domina a beirada da água, onde os visitantes sempre jogam pão. Mais longe da água, perto dos bancos, as pessoas também soltam migalhas, só que em menor quantidade. Onde esperar o pão?",
+      "option_a": {
+        "label": "Perto da água, disputando espaço com os patos",
+        "effect": "loss",
+        "note": "os patos são maiores, empurram com o peito e levam a maior parte do pão"
+      },
+      "option_b": {
+        "label": "Perto dos bancos, longe da água",
+        "effect": "gain",
+        "note": "menos pão, mas sem disputa com quem é maior e mais forte"
+      },
+      "feedback": [
+        "Pru-pru... pato é outra espécie e, perto da água, é dono do pedaço. Competição Interespecífica às vezes já tem vencedor claro.",
+        "Pru-pru... brigar com quem é maior custa caro. Melhor achar o canto onde a gente ganha fácil.",
+        "Pru-pru... time grande no gramado principal, time pequeno na lateral. Os dois comem, cada um no seu campo!"
+      ],
+      "tier": 9
+    },
+    {
+      "id": "q44",
+      "category": "Competição interespecífica",
+      "scenario": "Na mesma árvore, um sabiá belisca as frutinhas maduras lá em cima, enquanto no chão caem sementes que ele nem desce para pegar. Vale a pena disputar a fruta lá em cima ou ficar com a semente aqui embaixo?",
+      "option_a": {
+        "label": "Subir e disputar a fruta madura com o sabiá",
+        "effect": "loss",
+        "note": "o sabiá defende a fruta no próprio território dele, e a briga gasta mais energia do que rende"
+      },
+      "option_b": {
+        "label": "Ficar no chão comendo as sementes que caem",
+        "effect": "gain",
+        "note": "comida garantida, sem disputa, enquanto o sabiá cuida da parte de cima"
+      },
+      "feedback": [
+        "Pru-pru... sabiá come fruta lá em cima, a gente come semente aqui embaixo. Mesma árvore, comida diferente, sem Competição Interespecífica nenhuma.",
+        "Pru-pru... quando cada espécie usa uma parte diferente do recurso, a briga quase desaparece.",
+        "Pru-pru... a árvore é grande o bastante pros dois. Cada um no seu andar!"
+      ],
+      "tier": 9
+    },
+    {
+      "id": "q45",
+      "category": "Razão sexual",
+      "scenario": "Nessa praça, quase todo pombo solteiro é macho, e sobram poucas fêmeas disponíveis. Toda fêmea que aparece puxa uma fila de pretendentes brigando. Um pombo teimoso jura que, insistindo bastante, uma hora alguma fêmea sobra pra ele ali mesmo.",
+      "option_a": {
+        "label": "Ficar brigando com os outros machos pela mesma fêmea, confiando que a persistência compensa",
+        "effect": "loss",
+        "note": "a disputa consome energia dos dois lados, machuca o casal que já estava se formando, e ele segue sem par"
+      },
+      "option_b": {
+        "label": "Partir para outra praça, onde a proporção entre machos e fêmeas é mais equilibrada",
+        "effect": "gain",
+        "note": "encontra parceira sem disputa e forma par rapidamente"
+      },
+      "feedback": [
+        "Pru-pru... Razão Sexual é a proporção entre machos e fêmeas no bando. Quando ela fica torta, com muito macho e pouca fêmea, a disputa aperta.",
+        "Pru-pru... brigar por quem já tem par raramente dá certo, e ainda atrapalha o casal alheio. Melhor procurar onde a conta fecha.",
+        "Pru-pru... onde tem fila, tem demora. Procure uma praça com menos fila!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q46",
+      "category": "Razão sexual",
+      "scenario": "Um pombo avista uma pomba jovem e bonita, pousada na mesma marquise de sempre. Animado, já quer ir direto construir o ninho do lado dela, sem nem se apresentar direito. Vale pular a conversa e ir direto ao ponto?",
+      "option_a": {
+        "label": "Ir direto construir o ninho do lado dela, sem fazer cortejo",
+        "effect": "loss",
+        "note": "ela não reconhece nenhum vínculo e sai voando assustada, sem formar par nenhum"
+      },
+      "option_b": {
+        "label": "Fazer o ritual de cortejo primeiro: peito estufado, arrulho e rodopio diante dela",
+        "effect": "gain",
+        "note": "ela aceita o par, e os dois seguem juntos para o ninho"
+      },
+      "feedback": [
+        "Pru-pru... antes de virar casal, a gente faz um ritual de Cortejo: peito estufado, arrulho e rodopio. É assim que formamos o par.",
+        "Pru-pru... sem esse ritual, a fêmea não reconhece a intenção e foge. É o cortejo que transforma dois pombos soltos num casal de verdade.",
+        "Pru-pru... dancinha não é frescura, é estratégia! Sem ritual, sem par."
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q47",
+      "category": "Razão sexual",
+      "scenario": "Um pombo já está pronto para botar ovos, mas o parceiro ainda está sem clima, trocando de pena, sem interesse em cortejo. Vale começar o ninho sozinho, torcendo pra ele se animar depois?",
+      "option_a": {
+        "label": "Começar o ninho sozinho, sem esperar o parceiro se interessar",
+        "effect": "loss",
+        "note": "sem os dois prontos ao mesmo tempo, a postura fica desencontrada, e a incubação não é dividida direito"
+      },
+      "option_b": {
+        "label": "Esperar o cortejo sincronizar os dois antes de começar",
+        "effect": "gain",
+        "note": "os dois ficam prontos juntos, e a ninhada começa no tempo certo"
+      },
+      "feedback": [
+        "Pru-pru... o cortejo não serve só para formar o par, ele também ajuda a sincronizar os dois pombos para a reprodução.",
+        "Pru-pru... sem sincronia, um fica pronto antes do outro, e a parceria capenga.",
+        "Pru-pru... casal bom é casal no mesmo ritmo!"
+      ],
+      "tier": 2
+    },
+    {
+      "id": "q48",
+      "category": "Razão sexual",
+      "scenario": "Um pombo jovem repara que os beija-flores do jardim se viram sozinhos: a fêmea cuida do ninho inteira sozinha, sem ajuda do macho, e mesmo assim dá conta. Ele pensa em copiar o jeito e deixar a parceira cuidar de tudo dessa vez, pra ficar livre explorando a cidade.",
+      "option_a": {
+        "label": "Copiar o jeito do beija-flor e deixar a parceira cuidar da ninhada sozinha",
+        "effect": "loss",
+        "note": "diferente do beija-flor, a cria de pombo precisa de leite de papo dos dois pais, e sozinha ela não dá conta de tudo"
+      },
+      "option_b": {
+        "label": "Manter o sistema dos pombos, revezando a incubação e o leite de papo os dois",
+        "effect": "gain",
+        "note": "a ninhada toda recebe cuidado suficiente e sobrevive"
+      },
+      "feedback": [
+        "Pru-pru... cada espécie tem seu próprio Sistema de Acasalamento. Beija-flor se vira com só um pai, mas pombo não.",
+        "Pru-pru... nossos filhotes dependem do leite de papo dos dois pais. Copiar outra espécie sem esse cuidado não funciona pra gente.",
+        "Pru-pru... inspiração é bom, cópia nem sempre serve. Cada bicho no seu sistema!"
+      ],
+      "tier": 2
     }
   ]
 }

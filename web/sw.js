@@ -1,6 +1,7 @@
 // Guarda o jogo no aparelho para abrir sem internet.
-// Responde do cache e atualiza em segundo plano: uma mudança publicada aparece na abertura seguinte.
-const CACHE = "pombo-v5";
+// Responde do cache e atualiza em segundo plano. Quando sai versão nova (CACHE muda), o service worker
+// novo assume e recarrega as abas abertas: quem abriu com a versão velha já cai na nova, sem abrir de novo.
+const CACHE = "pombo-v6";
 const FILES = [
   "./",
   "index.html",
@@ -16,15 +17,22 @@ const FILES = [
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
+  // cache: "reload" pula o cache HTTP do navegador, senão a versão nova podia nascer com arquivo velho.
+  const pedidos = FILES.map((f) => new Request(f, { cache: "reload" }));
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(pedidos)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+  e.waitUntil((async () => {
+    // Só os caches do jogo: o álbum e outros projetos moram no mesmo robin-ud.github.io.
+    const velhos = (await caches.keys()).filter((k) => k.startsWith("pombo-") && k !== CACHE);
+    await Promise.all(velhos.map((k) => caches.delete(k)));
+    await self.clients.claim();
+    // Só recarrega se havia versão anterior: na primeira visita a página já veio da rede.
+    if (!velhos.length) return;
+    const abas = await self.clients.matchAll({ type: "window" });
+    await Promise.all(abas.map((aba) => aba.navigate(aba.url).catch(() => {})));
+  })());
 });
 
 self.addEventListener("fetch", (e) => {

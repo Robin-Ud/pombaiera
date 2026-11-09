@@ -11,11 +11,15 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
   <!-- Tela inicial -->
   <section id="screen-start" class="screen active">
+    <div class="hero">
+      <img class="hero-parque" src="img/parque.webp" alt="Parque com banco, lago e árvores" width="800" height="800">
+      <img class="hero-pombo" src="img/pombo.webp" alt="Pombo, o narrador do jogo" width="400" height="472">
+    </div>
     <h1>Jogo do Pombo</h1>
     <p class="tagline">Guie seu bando pela cidade. Boas decisões ecológicas costumam dar certo, mas a natureza sempre tem a última palavra.</p>
     <ul class="rules">
@@ -68,14 +72,17 @@
       </div>
 
       <div id="suspense" class="suspense hidden">
-        <p>pru-pru…</p>
+        <p><img class="avatar-mini" src="img/pombo.webp" alt="" width="400" height="472"> pru-pru…</p>
       </div>
 
       <div id="result" class="result hidden">
         <div id="result-banner" class="result-banner"></div>
         <p id="result-odds" class="result-odds"></p>
         <p id="result-note" class="result-note"></p>
-        <div id="feedback" class="feedback"></div>
+        <div class="narra">
+          <img class="avatar" src="img/pombo.webp" alt="" width="400" height="472">
+          <div id="feedback" class="feedback"></div>
+        </div>
         <button id="btn-next" class="btn-big">Próxima rodada <kbd>Enter</kbd></button>
       </div>
     </main>
@@ -83,6 +90,7 @@
 
   <!-- Fim -->
   <section id="screen-end" class="screen">
+    <img class="end-pombo" src="img/pombo.webp" alt="" width="400" height="472">
     <h1 id="end-title"></h1>
     <p id="end-msg" class="tagline"></p>
     <div class="stats" id="stats"></div>
@@ -116,8 +124,8 @@
     </div>
   </div>
 
-  <script src="metrics.js?v=10"></script>
-  <script src="perguntas.js?v=10"></script>
-  <script src="game.js?v=10"></script>
+  <script src="metrics.js?v=11"></script>
+  <script src="perguntas.js?v=11"></script>
+  <script src="game.js?v=11"></script>
 </body>
 </html>

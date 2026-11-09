@@ -26,7 +26,9 @@ python3 jogo_pombo.py --auto best     # teste: sempre a melhor escolha
 ## Arquivos
 
 - `perguntas.json` — as perguntas, por categoria (fonte única)
+  - campo opcional `"imagem": "img/arquivo.webp"`: ilustração mostrada acima do cenário (ex.: q01, bem-te-vi)
 - `gerar_perguntas_js.py` — gera `web/perguntas.js` a partir do JSON; rode de novo depois de editar
 - `web/` — o jogo web (HTML/CSS/JS sem framework, PWA), publicado pelo GitHub Pages a cada push
+- `web/img/` — ilustrações em webp; imagem nova também entra no `FILES` do `web/sw.js` (senão não abre offline)
 - `metricas/` — métricas anônimas de partida no Supabase (sem dado pessoal); veja o `LEIA-ME.md`
 - `Perguntas jogo do pombo.md` — o texto original das perguntas

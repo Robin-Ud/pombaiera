@@ -16,6 +16,7 @@ const FILES = [
   "icons/apple-touch-icon.png",
   "img/pombo.webp",
   "img/parque.webp",
+  "img/bem-te-vi.webp",
 ];
 
 self.addEventListener("install", (e) => {

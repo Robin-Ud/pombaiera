@@ -50,6 +50,7 @@ h1 { font-size: 2rem; margin-bottom: 8px; }
 .narra { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; }
 .narra .avatar { flex: none; width: 44px; height: auto; margin-top: 2px; }
 .narra .feedback { flex: 1; margin-bottom: 0; }
+.q-imagem { display: block; height: 130px; width: auto; max-width: 100%; margin: 4px auto 10px; }
 .avatar-mini { height: 28px; width: auto; vertical-align: middle; margin-right: 4px; }
 .tagline { color: var(--muted); margin-bottom: 20px; }
 

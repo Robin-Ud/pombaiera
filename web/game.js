@@ -285,6 +285,10 @@ if (typeof document !== "undefined") {
 
     $("#category").textContent = current.category;
     $("#scenario").textContent = current.scenario;
+    // Pergunta com "imagem" no perguntas.json mostra a ilustração acima do cenário.
+    const img = $("#q-imagem");
+    if (current.imagem) img.src = current.imagem;
+    img.classList.toggle("hidden", !current.imagem);
     // A ordem das opções é sorteada: sem isso a certa era sempre A no começo e sempre B no fim.
     state.swapped = rng() < 0.5;
     for (const btn of $$(".option")) {

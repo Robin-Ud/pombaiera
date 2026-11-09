@@ -20,6 +20,7 @@ window.PERGUNTAS = {
       "id": "q01",
       "category": "Distribuição etária",
       "scenario": "O bando precisa de mais pombos e o Bem-te-vi do bairro anda de olho no seu ninho:",
+      "imagem": "img/bem-te-vi.webp",
       "option_a": {
         "label": "Proteger o ninho e chocar ovos",
         "effect": "gain",

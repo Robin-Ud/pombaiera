@@ -276,7 +276,7 @@ for q in QUESTIONS:
     q["tier"] = CATEGORY_ORDER.index(q["category"])
 
 BANDS = [
-    {"name": "ninho", "min_pop": 0, "K": 15, "good_mult": 1.30, "bad_mult": 0.80, "tier_center": 1.5},
+    {"name": "ninho", "min_pop": 0, "K": 15, "good_mult": 1.30, "bad_mult": 1.60, "tier_center": 1.5},
     {"name": "bando", "min_pop": 20, "K": 45, "good_mult": 1.15, "bad_mult": 1.10, "tier_center": 4.0},
     {"name": "colônia", "min_pop": 60, "K": 110, "good_mult": 1.00, "bad_mult": 1.40, "tier_center": 6.5},
     {"name": "metrópole", "min_pop": 150, "K": 220, "good_mult": 0.90, "bad_mult": 1.80, "tier_center": 8.5},
@@ -285,6 +285,9 @@ BANDS = [
 MIN_GAP = 3
 # Cada partida sorteia estas rodadas do banco de perguntas; o resto fica para a próxima.
 ROUNDS = 12
+START_POP = 4
+# Todo erro custa pelo menos isso: com bando pequeno, chutar pode extinguir.
+LOSS_MIN = 2
 
 BAND_FINAL_MESSAGE = {
     "ninho": "Seu bando mal saiu do ninho, mas sobreviveu — um começo frágil e valioso.",
@@ -318,7 +321,7 @@ def compute_effect(pop, effect, band):
         delta = max(1, round(w * band["good_mult"] * dampening))
     else:
         pressure = clamp(0.5 + density_ratio * 0.7, 0.5, 2.0)
-        delta = -max(1, round(w * band["bad_mult"] * pressure))
+        delta = -max(LOSS_MIN, round(w * band["bad_mult"] * pressure))
     return delta
 
 
@@ -397,7 +400,7 @@ def main():
         random.seed(args.seed)
 
     rounds = min(args.rounds, len(QUESTIONS))
-    pop = 5
+    pop = START_POP
     pool = list(range(len(QUESTIONS)))
     category_last_round = {}
 

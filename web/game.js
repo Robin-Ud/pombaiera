@@ -3,7 +3,7 @@
 // ================= Regras (portadas de jogo_pombo.py) =================
 
 const BANDS = [
-  { name: "ninho", min_pop: 0, K: 15, good_mult: 1.30, bad_mult: 0.80, tier_center: 1.5 },
+  { name: "ninho", min_pop: 0, K: 15, good_mult: 1.30, bad_mult: 1.60, tier_center: 1.5 },
   { name: "bando", min_pop: 20, K: 45, good_mult: 1.15, bad_mult: 1.10, tier_center: 4.0 },
   { name: "colônia", min_pop: 60, K: 110, good_mult: 1.00, bad_mult: 1.40, tier_center: 6.5 },
   { name: "metrópole", min_pop: 150, K: 220, good_mult: 0.90, bad_mult: 1.80, tier_center: 8.5 },
@@ -12,7 +12,9 @@ const BANDS = [
 const MIN_GAP = 3;
 // Cada partida sorteia estas rodadas do banco de perguntas; o resto fica para a próxima.
 const ROUNDS = 12;
-const START_POP = 5;
+const START_POP = 4;
+// Todo erro custa pelo menos isso: com bando pequeno, chutar pode extinguir.
+const LOSS_MIN = 2;
 
 const BAND_FINAL_MESSAGE = {
   "ninho": "Seu bando mal saiu do ninho, mas sobreviveu — um começo frágil e valioso.",
@@ -59,7 +61,7 @@ function computeEffect(pop, effect, band) {
     return Math.max(1, pyRound(w * band.good_mult * dampening));
   }
   const pressure = clamp(0.5 + densityRatio * 0.7, 0.5, 2.0);
-  return -Math.max(1, pyRound(w * band.bad_mult * pressure));
+  return -Math.max(LOSS_MIN, pyRound(w * band.bad_mult * pressure));
 }
 
 function selectNext(questions, pool, roundIdx, lastRound, band, rng) {
@@ -151,7 +153,7 @@ function prizeText(prize, amount) {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { BANDS, getBand, computeEffect, pyRound, selectNext, mulberry32, resolveRound, comboMult };
+  module.exports = { BANDS, ROUNDS, START_POP, getBand, computeEffect, pyRound, selectNext, mulberry32, resolveRound, comboMult };
 }
 
 // ================= Interface =================

@@ -101,12 +101,16 @@
 </main>
 
 <footer>
-  Cada resposta chega quando a pessoa aperta “Próxima rodada”. Atualiza a cada 2 s. 🧪 = aparelho de teste: aparece, mas fica fora dos números. <kbd>C</kbd> mostra/esconde comentários.
+  Cada resposta chega quando a pessoa aperta “Próxima rodada”. Atualiza a cada 2 s. Só contam partidas da versão <span id="versao-min"></span> em diante; as antigas aparecem apagadas. 🧪 = aparelho de teste: aparece, mas fica fora dos números. <kbd>C</kbd> mostra/esconde comentários.
 </footer>
 
 <script>
 "use strict";
 const POLL_MS = 2000;
+// Versão das métricas (VERSION em web/metrics.js) a partir da qual os números contam.
+// A 9 é a do jogo novo: A/B sorteado, 12 rodadas, mais difícil. Pra ver tudo: ?versao=0 no endereço.
+const VERSAO_MIN = Number(new URLSearchParams(location.search).get("versao") ?? 9);
+document.getElementById("versao-min").textContent = VERSAO_MIN;
 const FEED_MAX = 14;
 const $ = (s) => document.querySelector(s);
 
@@ -120,6 +124,11 @@ const hora = (iso) => new Date(iso).toLocaleTimeString("pt-BR");
 const jogador = (e) => "#" + e.player_id.slice(0, 4);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const teste = (e) => e.data?.test === true;  // aparelho marcado com ?teste no jogo
+// O manter_acordado.sh manda um evento por dia só pro banco não pausar: nem aparece.
+const acordado = (e) => e.data?.keepalive === true;
+// Partidas da versão nova, pelo evento start (as respostas não levam a versão).
+const novas = new Set();
+const antiga = (e) => VERSAO_MIN > 0 && !novas.has(e.session_id);
 const sinal = (n) => (n > 0 ? "+" : n < 0 ? "−" : "±") + Math.abs(n);
 
 function descrever(e) {
@@ -153,9 +162,10 @@ function descrever(e) {
 function linha(e, novo) {
   const { icone, cls, txt } = descrever(e);
   const li = document.createElement("li");
-  li.className = cls + (novo ? " novo" : "") + (teste(e) ? " teste" : "");
+  const selo = teste(e) ? "🧪 teste · não conta" : antiga(e) ? "versão antiga · não conta" : "";
+  li.className = cls + (novo ? " novo" : "") + (selo ? " teste" : "");
   li.innerHTML = `<span class="hora">${hora(e.created_at)}</span><span>${icone}</span>
-    <span>${txt} <span class="quem">${jogador(e)}</span>${teste(e) ? ' <span class="selo">🧪 teste · não conta</span>' : ""}</span>`;
+    <span>${txt} <span class="quem">${jogador(e)}</span>${selo ? ` <span class="selo">${selo}</span>` : ""}</span>`;
   return li;
 }
 
@@ -188,7 +198,7 @@ function calcular() {
   const sessoes = new Map();
   let respostas = 0, melhores = 0, estrelas = 0, notas = 0;
   const porCat = new Map();
-  const contam = eventos.filter((e) => !teste(e));
+  const contam = eventos.filter((e) => !teste(e) && !antiga(e));
   for (const e of contam) {
     const s = sessoes.get(e.session_id) || { inicio: null, fim: null, ultimo: 0, pop: null };
     const t = Date.parse(e.created_at);
@@ -263,8 +273,9 @@ async function buscar() {
     if (!r.ok) throw { status: r.status, corpo };
     for (const e of corpo) {
       ultimoId = Math.max(ultimoId, e.id);
-      if (vistos.has(e.uid)) continue;
+      if (vistos.has(e.uid) || acordado(e)) continue;
       vistos.add(e.uid);
+      if (e.type === "start" && (e.data?.version ?? 0) >= VERSAO_MIN) novas.add(e.session_id);
       eventos.push(e);
       novos.push(e);
     }

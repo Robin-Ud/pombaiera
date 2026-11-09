@@ -81,6 +81,9 @@ a página fala com o `ao_vivo.py`, e só ele fala com o Supabase. Nunca cole ess
   quanto tempo ela passa lendo a explicação).
 - Comentários ficam escondidos (pra não projetar algo inesperado); aperte <kbd>C</kbd> pra mostrar.
 - Se aparecer "permission denied", rode no SQL Editor: `grant select on public.events to service_role;`
+- Os números contam só partidas da versão nova (métricas versão 9 em diante: A/B sorteado, 12 rodadas,
+  mais difícil). As antigas aparecem apagadas na lista. Pra ver tudo junto: `http://localhost:8790/?versao=0`.
+- O evento diário do `manter_acordado.sh` nem aparece.
 - Pra demonstrar, jogue num aparelho marcado com `?teste`: a partida aparece no painel com o selo 🧪 e não entra nos números.
 
 ### Zerar antes de uma apresentação

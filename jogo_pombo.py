@@ -283,6 +283,8 @@ BANDS = [
 ]
 
 MIN_GAP = 3
+# Cada partida sorteia estas rodadas do banco de perguntas; o resto fica para a próxima.
+ROUNDS = 20
 
 BAND_FINAL_MESSAGE = {
     "ninho": "Seu bando mal saiu do ninho, mas sobreviveu — um começo frágil e valioso.",
@@ -385,7 +387,7 @@ def band_message(pop):
 
 def main():
     parser = argparse.ArgumentParser(description="Jogo do Pombo — protótipo CLI")
-    parser.add_argument("--rounds", type=int, default=len(QUESTIONS), help="Número de rodadas (padrão: todas as perguntas)")
+    parser.add_argument("--rounds", type=int, default=ROUNDS, help=f"Número de rodadas (padrão: {ROUNDS})")
     parser.add_argument("--seed", type=int, default=None, help="Semente do gerador aleatório, para reprodutibilidade")
     parser.add_argument("--debug", action="store_true", help="Mostra info de depuração a cada rodada")
     parser.add_argument("--auto", choices=["best", "worst"], default=None, help="Modo de teste: sempre escolhe a melhor/pior opção")

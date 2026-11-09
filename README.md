@@ -17,7 +17,7 @@ instalar como app e roda offline.
 Também tem a versão de terminal, em Python puro:
 
 ```bash
-python3 jogo_pombo.py                 # todas as perguntas
+python3 jogo_pombo.py                 # 20 rodadas sorteadas do banco
 python3 jogo_pombo.py --rounds 5      # partida curta
 python3 jogo_pombo.py --seed 42       # mesma ordem sempre
 python3 jogo_pombo.py --auto best     # teste: sempre a melhor escolha

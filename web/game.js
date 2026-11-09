@@ -10,6 +10,8 @@ const BANDS = [
 ];
 
 const MIN_GAP = 3;
+// Cada partida sorteia estas rodadas do banco de perguntas; o resto fica para a próxima.
+const ROUNDS = 20;
 const START_POP = 5;
 
 const BAND_FINAL_MESSAGE = {
@@ -221,7 +223,7 @@ if (typeof document !== "undefined") {
 
   function newGame() {
     state = {
-      pop: START_POP, round: 0, rounds: QUESTIONS.length,
+      pop: START_POP, round: 0, rounds: Math.min(ROUNDS, QUESTIONS.length),
       pool: QUESTIONS.map((_, i) => i), lastRound: {},
       streak: 0, maxStreak: 0, bestChoices: 0, bandIdx: 0,
       buffs: { shield: false, double: false, wise: false },

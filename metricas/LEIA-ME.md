@@ -36,8 +36,8 @@ A diferença pro `?debug`: com `?teste` os dados chegam (dá pra mostrar no pain
 O plano grátis do Supabase pausa o projeto depois de 7 dias sem uso (o endereço some e o jogo para de mandar).
 O [`manter_acordado.sh`](manter_acordado.sh) manda um evento de teste por dia (`"test": true, "keepalive": true`,
 sempre do mesmo aparelho `00000000-0000-4000-8000-00000000acad`), que fica fora dos relatórios. Ele roda no
-cron da VM (`ssh oci`), às 9h17, em `~/deving/pombaiera/`, com log em `acordado.log` na mesma pasta. Se mudar o
-script, copie de novo com `scp metricas/manter_acordado.sh oci:deving/pombaiera/`.
+cron da VM (`ssh oci`), às 9h17, em `~/cron/pombaiera/`, com log em `acordado.log` na mesma pasta. Se mudar o
+script, copie de novo com `scp metricas/manter_acordado.sh oci:cron/pombaiera/`.
 Se pausar mesmo assim: Supabase → projeto → *Restore project*.
 
 ## Ver os resultados

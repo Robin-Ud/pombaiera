@@ -48,7 +48,7 @@ h1 { font-size: 2rem; margin-bottom: 8px; }
 }
 .end-pombo { display: block; height: 110px; width: auto; margin-bottom: 10px; }
 .narra { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; }
-.narra .avatar { flex: none; width: 44px; height: auto; margin-top: 2px; }
+.narra .avatar { flex: none; width: 52px; height: auto; margin-top: 2px; }
 .narra .feedback { flex: 1; margin-bottom: 0; }
 .q-imagem { display: block; height: 130px; width: auto; max-width: 100%; margin: 4px auto 10px; }
 .avatar-mini { height: 28px; width: auto; vertical-align: middle; margin-right: 4px; }
@@ -69,6 +69,7 @@ h1 { font-size: 2rem; margin-bottom: 8px; }
 .btn-big:disabled { opacity: .5; }
 .btn-secondary { margin-top: 8px; background: var(--field); color: var(--text); border: 2px solid var(--line); }
 .install-hint { margin-top: 12px; color: var(--muted); font-size: .85rem; text-align: center; }
+.creditos { margin-top: 18px; color: var(--muted); font-size: .75rem; text-align: center; opacity: .8; }
 
 /* painel de cima */
 .hud {
@@ -99,6 +100,24 @@ h1 { font-size: 2rem; margin-bottom: 8px; }
 .combo-mult { font-weight: 600; color: var(--good); }
 .buffs { margin-left: auto; display: flex; gap: 6px; }
 .buff { background: var(--field); border-radius: 4px; padding: 1px 6px; font-size: .8rem; }
+
+/* cenário de fundo da partida: as três cenas ficam empilhadas e só a da vez aparece */
+.cenario { position: fixed; inset: 0; z-index: -1; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+body.em-jogo .cenario { opacity: 1; }
+.cena {
+  position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease;
+  background: center 70% / cover no-repeat;
+}
+.cena.on { opacity: 1; }
+.cena-dia { background-image: url("img/cenario-dia.webp"); }
+.cena-tarde { background-image: url("img/cenario-tarde.webp"); }
+.cena-por-do-sol { background-image: url("img/cenario-por-do-sol.webp"); }
+/* véu escuro por cima: o texto continua legível em qualquer cena */
+.cenario::after { content: ""; position: absolute; inset: 0; background: linear-gradient(#16292e66, #16292ecc 70%); }
+body.em-jogo .hud, body.em-jogo .card {
+  background: rgba(31, 56, 62, .9);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
 
 /* pergunta */
 .card { background: var(--card); border-radius: 8px; padding: 16px; }
@@ -155,6 +174,9 @@ h1 { font-size: 2rem; margin-bottom: 8px; }
 .modal-box { width: 100%; max-width: 380px; background: var(--card); border-radius: 8px; padding: 20px; text-align: center; display: grid; gap: 10px; }
 .modal-box p { color: var(--muted); }
 .egg { font-size: 48px; }
+.egg-filhote { display: block; height: 130px; width: auto; margin: 0 auto; animation: choca .35s ease-out; }
+@keyframes choca { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.level-img { display: block; height: 150px; width: auto; margin: 0 auto; }
 .prize-text { color: var(--text) !important; font-weight: 600; }
 .level-label { font-weight: 600; color: var(--good); }
 .level h2 { font-size: 1.8rem; text-transform: capitalize; }

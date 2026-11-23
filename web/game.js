@@ -214,6 +214,7 @@ if (typeof document !== "undefined") {
   // ---------- telas ----------
   function show(id) {
     $$(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
+    document.body.classList.toggle("em-jogo", id === "screen-game");
     scrollTo(0, 0);
   }
 
@@ -283,6 +284,10 @@ if (typeof document !== "undefined") {
     current = QUESTIONS[selectNext(QUESTIONS, state.pool, state.round, state.lastRound, band, rng)];
     if (DEBUG) console.log(`[round ${state.round} | pop=${state.pop} | band=${band.name} | categoria=${current.category} | tier=${current.tier}]`);
 
+    // O dia passa durante a partida: primeiro terço de manhã, depois à tarde, no fim o pôr do sol.
+    const fase = Math.min(2, Math.floor(((state.round - 1) * 3) / state.rounds));
+    $$(".cena").forEach((c, i) => c.classList.toggle("on", i === fase));
+
     $("#category").textContent = current.category;
     $("#scenario").textContent = current.scenario;
     // Pergunta com "imagem" no perguntas.json mostra a ilustração acima do cenário.
@@ -333,6 +338,9 @@ if (typeof document !== "undefined") {
       const tag = res.risky ? "Melhor escolha: costuma dar certo" : "Melhor escolha";
       btn.querySelector(".opt-label").insertAdjacentHTML("beforeend", `<span class="tag">${tag}</span>`);
     }
+
+    // O pombo narrador comemora quando o bando prospera e fica bravo quando sofre.
+    $("#avatar").src = res.success ? "img/pombo-joinha.webp" : "img/pombo-bravo.webp";
 
     const banner = $("#result-banner");
     banner.className = "result-banner " + (res.success ? "win" : "lose");
@@ -406,12 +414,15 @@ if (typeof document !== "undefined") {
     const amount = Math.max(2, pyRound(state.pop * 0.15));
     const egg = $("#egg");
     egg.textContent = "🥚";
+    egg.classList.remove("hidden");
+    $("#egg-filhote").classList.add("hidden");
     $("#prize-text").textContent = "Sua boa escolha trouxe um presente…";
     $("#btn-egg-ok").classList.add("hidden");
     $("#modal-egg").classList.remove("hidden");
 
     await wait(1200);
-    egg.textContent = "🐣";
+    egg.classList.add("hidden");
+    $("#egg-filhote").classList.remove("hidden");
     $("#prize-text").textContent = prizeText(prize, amount);
     sfx.good();
 
@@ -460,6 +471,7 @@ if (typeof document !== "undefined") {
     const newRecord = survived && state.pop > (rec.best || 0);
     if (newRecord) saveRecord({ best: state.pop, bestBand: band.name });
 
+    $("#end-pombo").src = survived ? "img/pombo-joinha.webp" : "img/pombo-bravo.webp";
     $("#end-title").textContent = survived
       ? (newRecord ? `Novo recorde: ${state.pop} pombos!` : `${state.pop} pombos`)
       : "O bando desapareceu";

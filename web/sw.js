@@ -1,14 +1,14 @@
 // Guarda o jogo no aparelho para abrir sem internet.
 // Responde do cache e atualiza em segundo plano. Quando sai versão nova (CACHE muda), o service worker
 // novo assume e recarrega as abas abertas: quem abriu com a versão velha já cai na nova, sem abrir de novo.
-const CACHE = "pombo-v7";
+const CACHE = "pombo-v8";
 const FILES = [
   "./",
   "index.html",
-  "style.css?v=11",
-  "metrics.js?v=11",
-  "game.js?v=11",
-  "perguntas.js?v=11",
+  "style.css?v=12",
+  "metrics.js?v=12",
+  "game.js?v=12",
+  "perguntas.js?v=12",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",
@@ -16,7 +16,14 @@ const FILES = [
   "icons/apple-touch-icon.png",
   "img/pombo.webp",
   "img/parque.webp",
-  "img/bem-te-vi.webp",
+  "img/pombo-joinha.webp",
+  "img/pombo-bravo.webp",
+  "img/pombo-boxeador.webp",
+  "img/filhote.webp",
+  "img/duelo.webp",
+  "img/cenario-dia.webp",
+  "img/cenario-tarde.webp",
+  "img/cenario-por-do-sol.webp",
 ];
 
 self.addEventListener("install", (e) => {

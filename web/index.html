@@ -11,9 +11,16 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
+  <!-- Cenário de fundo da partida: o dia passa conforme as rodadas (game.js troca a classe .on) -->
+  <div id="cenario" class="cenario" aria-hidden="true">
+    <div class="cena cena-dia"></div>
+    <div class="cena cena-tarde"></div>
+    <div class="cena cena-por-do-sol"></div>
+  </div>
+
   <!-- Tela inicial -->
   <section id="screen-start" class="screen active">
     <div class="hero">
@@ -33,6 +40,7 @@
     <button id="btn-start" class="btn-big">Começar <kbd>Enter</kbd></button>
     <button id="btn-install" class="btn-big btn-secondary hidden">Instalar app</button>
     <p id="install-hint" class="install-hint hidden">No iPhone: toque em Compartilhar e depois em <b>Adicionar à Tela de Início</b>.</p>
+    <p class="creditos">Desenhos feitos pelo grupo. Os cenários de fundo da partida foram gerados por IA.</p>
   </section>
 
   <!-- Jogo -->
@@ -81,7 +89,7 @@
         <p id="result-odds" class="result-odds"></p>
         <p id="result-note" class="result-note"></p>
         <div class="narra">
-          <img class="avatar" src="img/pombo.webp" alt="" width="400" height="472">
+          <img id="avatar" class="avatar" src="img/pombo-joinha.webp" alt="" width="434" height="400">
           <div id="feedback" class="feedback"></div>
         </div>
         <button id="btn-next" class="btn-big">Próxima rodada <kbd>Enter</kbd></button>
@@ -91,7 +99,7 @@
 
   <!-- Fim -->
   <section id="screen-end" class="screen">
-    <img class="end-pombo" src="img/pombo.webp" alt="" width="400" height="472">
+    <img id="end-pombo" class="end-pombo" src="img/pombo-joinha.webp" alt="" width="434" height="400">
     <h1 id="end-title"></h1>
     <p id="end-msg" class="tagline"></p>
     <div class="stats" id="stats"></div>
@@ -110,6 +118,7 @@
     <div class="modal-box">
       <h2>Ovo surpresa!</h2>
       <div id="egg" class="egg">🥚</div>
+      <img id="egg-filhote" class="egg-filhote hidden" src="img/filhote.webp" alt="Filhote de pombo saindo do ovo" width="382" height="400">
       <p id="prize-text" class="prize-text">Sua boa escolha trouxe um presente…</p>
       <button id="btn-egg-ok" class="btn-big hidden">Continuar <kbd>Enter</kbd></button>
     </div>
@@ -118,6 +127,7 @@
   <!-- Subida de faixa -->
   <div id="modal-level" class="modal hidden">
     <div class="modal-box level">
+      <img class="level-img" src="img/pombo-boxeador.webp" alt="Pombo musculoso de luvas de boxe" width="240" height="440">
       <div class="level-label">O bando cresceu!</div>
       <h2 id="level-name"></h2>
       <p id="level-msg"></p>
@@ -125,8 +135,8 @@
     </div>
   </div>
 
-  <script src="metrics.js?v=11"></script>
-  <script src="perguntas.js?v=11"></script>
-  <script src="game.js?v=11"></script>
+  <script src="metrics.js?v=12"></script>
+  <script src="perguntas.js?v=12"></script>
+  <script src="game.js?v=12"></script>
 </body>
 </html>
